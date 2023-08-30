@@ -1,0 +1,19 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "cloneDeep": "file:packages/cloneDeep"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.11",
+    "@babel/preset-env": "^7.22.10",
+    "@types/jest": "^29.5.4",
+    "babel-jest": "^29.6.4",
+    "jest": "^29.6.4",
+    "lerna": "^7.1.5",
+    "lodash": "^4.17.21"
+  }
+}

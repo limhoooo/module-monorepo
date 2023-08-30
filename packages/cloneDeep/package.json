@@ -1,0 +1,10 @@
+{
+  "name": "clonedeep",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "lim ho <dlagh123@gmail.com>",
+  "license": "ISC",
+  "scripts": {
+    "test": "jest --watch"
+  }
+}
