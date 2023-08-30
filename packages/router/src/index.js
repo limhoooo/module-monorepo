@@ -1,7 +1,7 @@
 // 1. 라우트 입력 (하면 url 파싱해서 컴포넌트 변경(페이지이동)) O
 // 2. 404 페이지 등록 O
 // 3. 쿼리 파라미터 O
-// 4. / 처리
+// 4. / 처리.
 const routes = Object.freeze({
   routes: [],
   router: function (path, component) {
