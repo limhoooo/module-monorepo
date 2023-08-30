@@ -53,10 +53,3 @@ routes
 
 // 3 - 체이닝 된 코드가 길어져 보기 불편. 유지보수를 고려한다면 3번
 // routes.router("/main").router("/mypage").router("/content").error("/404");
-
-{
-  /* <Routes>
-  <Router></Router>
-  <Router></Router>
-</Routes>; */
-}
