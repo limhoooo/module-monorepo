@@ -3,31 +3,34 @@
 // 3. 쿼리 파라미터 O
 
 export class Routes {
+  #routes = [];
+  #notFoundComponent = null;
+  #nodeId = null;
   constructor(id) {
-    this.routes = [];
     this.matchRoute = {};
-    this.nodeId = id;
-    this.notFoundComponent = null;
-
-    window.addEventListener("load", () => this.checkRoute());
-    window.addEventListener("hashchange", () => this.checkRoute());
+    this.#nodeId = id;
+    window.addEventListener("load", () => this.#checkRoute());
+    window.addEventListener("hashchange", () => this.#checkRoute());
   }
+
   addRoute(url, component) {
     const urlParse = url.split("/:");
     const path = urlParse[0];
-    urlParse.shift();
-    const paramsKey = urlParse;
-    this.routes.push({ url, path, component, paramsKey, params: null });
+    const paramsKey = urlParse.slice(1);
+    this.#routes = [
+      ...this.#routes,
+      { url, path, component, paramsKey, params: null },
+    ];
     return this;
   }
   setNotFound(component) {
-    this.notFoundComponent = component;
+    this.#notFoundComponent = component;
     return this;
   }
   serverError(component) {}
-  checkRoute() {
+  #checkRoute() {
     const hashUrl = window.location.hash.slice(1);
-    this.matchRoute = this.routes.find((route) => {
+    this.matchRoute = this.#routes.find((route) => {
       //([^\\/]+) : / 로 시작하는 모든 문자
       ///:\w+/g /: 로 시작하는 문자가 있을시 ([^\\/]+) 로 치환
       const paramRepaceRegexp = route.url.replace(/:\w+/g, "([^\\/]+)");
@@ -35,23 +38,27 @@ export class Routes {
       return regexpUrl.test(hashUrl);
     });
     if (this.matchRoute) {
-      if (this.matchRoute.paramsKey) this.checkParam(hashUrl);
-      this.render(this.matchRoute.component);
+      if (this.matchRoute.paramsKey) this.#checkParam(hashUrl);
+      this.#render(this.matchRoute.component);
     } else {
-      this.render(this.notFoundComponent);
+      this.#render(this.#notFoundComponent);
     }
   }
-  checkParam(hashUrl) {
-    const params = hashUrl.replace(this.matchRoute.path, "").split("/");
-    params.shift();
-    const paramsObj = {};
-    params.forEach(
-      (value, index) => (paramsObj[this.matchRoute.paramsKey[index]] = value)
-    );
-    this.matchRoute.params = paramsObj;
+  #checkParam(hashUrl) {
+    const params = hashUrl
+      .replace(this.matchRoute.path, "")
+      .slice(1)
+      .split("/");
+    const paramsObj = params.map((value, index) => ({
+      [this.matchRoute.paramsKey[index]]: value,
+    }));
+
+    this.matchRoute.params = Object.assign({}, ...paramsObj);
   }
-  render(component) {
-    document.getElementById(this.nodeId).innerHTML = component(this.matchRoute);
+  #render(component) {
+    document.getElementById(this.#nodeId).innerHTML = component(
+      this.matchRoute
+    );
     console.log(this);
   }
 }
@@ -72,5 +79,3 @@ routes
   .addRoute("/mypage/login/:name/:age", Mypage)
   .addRoute("/content/:key/:value", Content)
   .setNotFound(NotFound);
-
-console.log(routes);
