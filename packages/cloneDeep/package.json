@@ -4,7 +4,9 @@
   "description": "> TODO: description",
   "author": "lim ho <dlagh123@gmail.com>",
   "license": "ISC",
+  "type": "module",
   "scripts": {
-    "test": "jest --watch"
+    "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js",
+    "build": "rollup -c"
   }
 }
