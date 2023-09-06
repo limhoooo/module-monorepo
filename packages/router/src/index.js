@@ -9,12 +9,12 @@ export class Routes {
   constructor(id) {
     this.matchRoute = {};
     this.#nodeId = id;
-    window.addEventListener("load", () => this.#checkRoute());
-    window.addEventListener("hashchange", () => this.#checkRoute());
+    window.addEventListener('load', () => this.#checkRoute());
+    window.addEventListener('hashchange', () => this.#checkRoute());
   }
 
   addRoute(url, component) {
-    const urlParse = url.split("/:");
+    const urlParse = url.split('/:');
     const path = urlParse[0];
     const paramsKey = urlParse.slice(1);
     this.#routes = [
@@ -30,10 +30,10 @@ export class Routes {
   serverError(component) {}
   #checkRoute() {
     const hashUrl = window.location.hash.slice(1);
-    this.matchRoute = this.#routes.find((route) => {
+    this.matchRoute = this.#routes.find(route => {
       //([^\\/]+) : / 로 시작하는 모든 문자
       ///:\w+/g /: 로 시작하는 문자가 있을시 ([^\\/]+) 로 치환
-      const paramRepaceRegexp = route.url.replace(/:\w+/g, "([^\\/]+)");
+      const paramRepaceRegexp = route.url.replace(/:\w+/g, '([^\\/]+)');
       const regexpUrl = new RegExp(`^${paramRepaceRegexp}\\/?$`);
       return regexpUrl.test(hashUrl);
     });
@@ -46,9 +46,9 @@ export class Routes {
   }
   #checkParam(hashUrl) {
     const params = hashUrl
-      .replace(this.matchRoute.path, "")
+      .replace(this.matchRoute.path, '')
       .slice(1)
-      .split("/");
+      .split('/');
     const paramsObj = params.map((value, index) => ({
       [this.matchRoute.paramsKey[index]]: value,
     }));
@@ -57,25 +57,25 @@ export class Routes {
   }
   #render(component) {
     document.getElementById(this.#nodeId).innerHTML = component(
-      this.matchRoute
+      this.matchRoute,
     );
     console.log(this);
   }
 }
 
 // ex
-const Home = () => "<h1>Welcome to the Home Page</h1>";
-const Mypage = (matchRoute) =>
+const Home = () => '<h1>Welcome to the Home Page</h1>';
+const Mypage = matchRoute =>
   `<h1>Welcome to the mypage Page</h1><br>name : ${matchRoute.params.name}<br>age : ${matchRoute.params.age}`;
-const Content = () => "<h1>Welcome to the Content Page</h1>";
-const Main = () => "<h1>Welcome to the Main Page</h1>";
-const NotFound = () => "<h1>404</h1>";
+const Content = () => '<h1>Welcome to the Content Page</h1>';
+const Main = () => '<h1>Welcome to the Main Page</h1>';
+const NotFound = () => '<h1>404</h1>';
 
-const routes = new Routes("app");
+const routes = new Routes('app');
 
 routes
-  .addRoute("/", Home)
-  .addRoute("/main", Main)
-  .addRoute("/mypage/login/:name/:age", Mypage)
-  .addRoute("/content/:key/:value", Content)
+  .addRoute('/', Home)
+  .addRoute('/main', Main)
+  .addRoute('/mypage/login/:name/:age', Mypage)
+  .addRoute('/content/:key/:value', Content)
   .setNotFound(NotFound);
