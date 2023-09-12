@@ -4,11 +4,11 @@ import resolve from '@rollup/plugin-node-resolve';
 import babel from '@rollup/plugin-babel';
 import terser from '@rollup/plugin-terser';
 import serve from 'rollup-plugin-serve';
-
+import html from 'rollup-plugin-generate-html-template';
 export default {
-  input: 'src/index.js', // 입력 파일의 경로를 수정하세요
+  input: 'src/index.js', // 입력 파일의 경로를 수정
   output: {
-    file: 'dist/bundle.js', // 출력 파일의 경로를 수정하세요
+    file: 'dist/bundle.js', // 출력 파일의 경로를 수정
     format: 'esm', // ESM 형식으로 빌드 설정
   },
   plugins: [
@@ -20,19 +20,19 @@ export default {
       babelHelpers: 'bundled',
       presets: ['@babel/preset-env'],
     }), //babel을 사용 할 수 있게 해줌
+    html({
+      template: 'public/index.html',
+      target: 'dist/index.html',
+      attrs: ["src='/bundle.js'"],
+    }),
     serve({
-      // 서버를 어느 디렉토리에서 호스팅할 것인지 설정합니다.
-      contentBase: ['./'],
-      // 포트 번호를 설정합니다.
+      // 서버를 어느 디렉토리에서 호스팅할 것인지 설정
+      contentBase: 'dist',
+      // 포트 번호를 설정
       port: 8080,
-      // 브라우저에서 자동으로 열릴지 여부를 설정합니다.
+      // 브라우저에서 자동으로 열릴지 여부를 설정
       open: true,
+      historyApiFallback: true, // SPA 라우팅을 위해 필요한 설정
     }),
   ],
 };
-
-// npm i -D rollup
-// @rollup/plugin-babel
-// @rollup/plugin-node-resolve
-// @rollup/plugin-commonjs
-// @rollup-plugin-terser
