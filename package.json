@@ -6,7 +6,9 @@
   ],
   "dependencies": {
     "@rollup/plugin-terser": "^0.4.3",
-    "cloneDeep": "file:packages/cloneDeep"
+    "cloneDeep": "file:packages/cloneDeep",
+    "component-h": "file:packages/component-h",
+    "router-h": "file:packages/router-h"
   },
   "devDependencies": {
     "@babel/core": "^7.22.11",
