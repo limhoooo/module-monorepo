@@ -3,28 +3,27 @@
 // 컴포넌트 생성시 초기데이터 생성
 
 export default class Component {
-  #target = null;
-  constructor(target) {
-    this.#target = target;
+  constructor(target, props, route) {
+    this.target = document.getElementById(target);
     this.state = null;
+    this.props = props;
+    this.route = route;
     this.setup();
+    this.render();
   }
-  template() {}
-  setEvent() {}
-  setup() {}
+  template() {} // 랜더링할 마크업
+  setup() {} // 랜더링 전 data setup
+  setEvent() {} // 이벤트 추가
+  onMounted() {} // 랜더링 이후 동작
+  // state 변경
   setState(newState) {
     this.state = { ...this.state, ...newState };
     this.render();
   }
-  // 랜더기능 (하위에 상속되서 하위 템플릿 랜더링)
+  // 랜더링
   render() {
-    const mainNode = document.createElement('main');
-    mainNode.innerHTML = this.template();
-    if (this.#target.firstChild) {
-      this.#target.replaceChild(mainNode, this.#target.firstChild);
-    } else {
-      this.#target.appendChild(mainNode);
-    }
+    this.target.innerHTML = this.template();
     this.setEvent();
+    this.onMounted();
   }
 }
