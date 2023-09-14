@@ -22,8 +22,10 @@ export default class Component {
   }
   // 랜더링
   render() {
-    this.target.innerHTML = this.template();
-    this.setEvent();
-    this.onMounted();
+    requestAnimationFrame(() => {
+      this.target.innerHTML = this.template();
+      this.setEvent();
+      this.onMounted();
+    });
   }
 }
