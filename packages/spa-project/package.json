@@ -19,9 +19,5 @@
   "bugs": {
     "url": "https://github.com/limhoooo/module-monorepo/issues"
   },
-  "dependencies": {
-    "clonedeep-h": "^1.0.0",
-    "component-h": "^1.0.0",
-    "router-h": "^1.0.1"
-  }
+  "dependencies": {}
 }
