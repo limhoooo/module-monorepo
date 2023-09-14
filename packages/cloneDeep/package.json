@@ -1,10 +1,13 @@
 {
-  "name": "clonedeep",
-  "version": "0.0.0",
+  "name": "clonedeep-h",
+  "version": "1.0.0",
   "description": "> TODO: description",
   "author": "lim ho <dlagh123@gmail.com>",
   "license": "ISC",
+  "type": "module",
   "scripts": {
-    "test": "jest --watch"
+    "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js",
+    "build": "rollup -c",
+    "start": "rollup -c rollup.config.js -w"
   }
 }

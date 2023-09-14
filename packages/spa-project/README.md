@@ -1,11 +1,11 @@
-# `router`
+# `spa-project`
 
 > TODO: description
 
 ## Usage
 
 ```
-const router = require('router');
+const spaProject = require('spa-project');
 
 // TODO: DEMONSTRATE API
 ```

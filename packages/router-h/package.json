@@ -1,0 +1,27 @@
+{
+  "name": "router-h",
+  "version": "1.0.1",
+  "description": "> TODO: description",
+  "author": "lim ho <dlagh123@gmail.com>",
+  "homepage": "https://github.com/limhoooo/module-monorepo#readme",
+  "license": "ISC",
+  "main": "./index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js",
+    "build": "rollup -c",
+    "start": "rollup -c rollup.config.js -w"
+  },
+  "devDependencies": {},
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/limhoooo/module-monorepo.git"
+  },
+  "keywords": [
+    "router"
+  ],
+  "bugs": {
+    "url": "https://github.com/limhoooo/module-monorepo/issues"
+  }
+}
