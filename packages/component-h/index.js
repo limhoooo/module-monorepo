@@ -1,10 +1,7 @@
-// 자식 컴포넌트에서 만든 HTML 랜더링기능
-// state 변경시 재랜더링
-// 컴포넌트 생성시 초기데이터 생성
-
+import { updateElement } from './core/updateElement.js';
 export default class Component {
   constructor(target, props, route) {
-    this.target = document.getElementById(target);
+    this.target = document.querySelector(target);
     this.state = null;
     this.props = props;
     this.route = route;
@@ -13,7 +10,6 @@ export default class Component {
   }
   template() {} // 랜더링할 마크업
   setup() {} // 랜더링 전 data setup
-  setEvent() {} // 이벤트 추가
   onMounted() {} // 랜더링 이후 동작
   // state 변경
   setState(newState) {
@@ -23,8 +19,17 @@ export default class Component {
   // 랜더링
   render() {
     requestAnimationFrame(() => {
-      this.target.innerHTML = this.template();
-      this.setEvent();
+      const newNode = this.target.cloneNode(true);
+      newNode.innerHTML = this.template().outerHTML;
+      // DIFF알고리즘 적용
+      const oldChildNodes = [...this.target.childNodes];
+      const newChildNodes = [...newNode.childNodes];
+      const max = Math.max(oldChildNodes.length, newChildNodes.length);
+      for (let i = 0; i < max; i++) {
+        updateElement(this.target, newChildNodes[i], oldChildNodes[i]);
+      }
+
+      // this.target.innerHTML = this.template().outerHTML;
       this.onMounted();
     });
   }
