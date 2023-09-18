@@ -1,5 +1,4 @@
 import Component from 'component-h';
-import TodoList from './components/todoList.js';
 import TodoInput from './components/todoInput.js';
 import todoFilter from './components/todoFilter.js';
 import Route from './components/route.js';
@@ -16,28 +15,28 @@ export default class App extends Component {
       this.setState({ items: [...this.state.items, { ...item }] });
     });
   }
+
+  todoListclickEvent = ({ target }) => {
+    if (target.classList.contains('todoDeleteBtn')) {
+      const todoId = target.getAttribute('data-todoId');
+      const items = this.state.items.filter(item => item.id !== Number(todoId));
+      this.setState({ items: [...items] });
+    }
+    if (target.classList.contains('todoCheckInput')) {
+      const todoId = target.getAttribute('id');
+      const todoList = this.state.items.map(item => {
+        if (item.id === Number(todoId)) return { ...item, check: !item.check };
+        return item;
+      });
+      this.setState({
+        items: todoList,
+      });
+    }
+  };
+
   todoListEvent(node) {
-    // 추상화 예정
-    node.addEventListener('click', ({ target }) => {
-      if (target.classList.contains('todoDeleteBtn')) {
-        const todoId = target.getAttribute('data-todoId');
-        const items = this.state.items.filter(
-          item => item.id !== Number(todoId),
-        );
-        this.setState({ items: [...items] });
-      }
-      if (target.classList.contains('todoCheckInput')) {
-        const todoId = target.getAttribute('id');
-        const todoList = this.state.items.map(item => {
-          if (item.id === Number(todoId))
-            return { ...item, check: !item.check };
-          return item;
-        });
-        this.setState({
-          items: todoList,
-        });
-      }
-    });
+    node.removeEventListener('click', this.todoListclickEvent);
+    node.addEventListener('click', this.todoListclickEvent);
   }
   onMounted() {
     const { items } = this.state;
@@ -45,6 +44,7 @@ export default class App extends Component {
     new TodoInput('todoInputNode', {
       todoInputEvent: this.todoInputEvent.bind(this),
     });
+
     new Route('todoListNode', {
       items,
       todoListEvent: this.todoListEvent.bind(this),

@@ -1,7 +1,6 @@
 import Component from 'component-h';
 
 export default class todoFilter extends Component {
-  setEvent() {}
   template() {
     const { items } = this.props;
     return `
