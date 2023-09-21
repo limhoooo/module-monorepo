@@ -7,11 +7,11 @@ export default class TodoInput extends Component {
     this.props.todoInputEvent(this.target);
   }
   template() {
-    return createElement(
+    return (
       <div>
         <input type="text" class="todoInput" />
         <button class="addTodo">Add</button>
-      </div>,
+      </div>
     );
   }
 }

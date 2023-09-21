@@ -2,7 +2,8 @@
 import { h, createElement } from './core/parse.js';
 import Component from 'component-h';
 import TodoInput from './components/todoInput.js';
-import todoFilter from './components/todoFilter.js';
+import TodoFilter from './components/todoFilter.js';
+import TodoList from './components/todoList.js';
 import Route from './components/route.js';
 
 export default class App extends Component {
@@ -20,14 +21,14 @@ export default class App extends Component {
 
   todoListclickEvent = ({ target }) => {
     if (target.classList.contains('todoDeleteBtn')) {
-      const todoId = target.getAttribute('data-todoId');
-      const items = this.state.items.filter(item => item.id !== Number(todoId));
+      const todoId = Number(target.getAttribute('data-todoId'));
+      const items = this.state.items.filter(item => item.id !== todoId);
       this.setState({ items: [...items] });
     }
     if (target.classList.contains('todoCheckInput')) {
-      const todoId = target.getAttribute('id');
+      const todoId = Number(target.getAttribute('id'));
       const todoList = this.state.items.map(item => {
-        if (item.id === Number(todoId)) return { ...item, check: !item.check };
+        if (item.id === todoId) return { ...item, check: !item.check };
         return item;
       });
       this.setState({
@@ -43,7 +44,7 @@ export default class App extends Component {
   }
   onMounted() {
     const { items } = this.state;
-    new todoFilter('#todoFilterNode', { items });
+    new TodoFilter('#todoFilterNode', { items });
     new TodoInput('#todoInputNode', {
       todoInputEvent: this.todoInputEvent.bind(this),
     });
@@ -53,15 +54,15 @@ export default class App extends Component {
     });
   }
   template() {
-    return createElement(
-      <div style="display:flex; justify-content: center;">
+    return (
+      <div style="display:flex; justify-content: center;" class="test">
         <div>
-          <h1>TodoList</h1>
+          {/* <h1>TodoList</h1> */}
           <div id="todoFilterNode"></div>
           <div id="todoInputNode"></div>
           <div id="todoListNode"></div>
         </div>
-      </div>,
+      </div>
     );
   }
 }

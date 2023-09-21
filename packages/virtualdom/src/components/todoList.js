@@ -11,21 +11,22 @@ export default class TodoList extends Component {
   }
   template() {
     const { props } = this;
+    // console.log('template');
     const items = props.items.filter(item => {
       if (this.url === '/checked') return item.check;
       if (this.url === '/unchecked') return !item.check;
       return item;
     });
-    return createElement(
+    return (
       <div>
         <div>Total Count : {String(items.length)}</div>
         {items.map(item => (
-          <div>
+          <div key={item.id}>
             <input
               type="checkbox"
               class="todoCheckInput"
               id={item.id}
-              checked={item.check}
+              {...(item.check ? { checked: true } : {})}
             />
             <label for={item.id}> {item.todo} </label>
             <button class="todoDeleteBtn" data-todoId={item.id}>
@@ -33,7 +34,7 @@ export default class TodoList extends Component {
             </button>
           </div>
         ))}
-      </div>,
+      </div>
     );
   }
 }

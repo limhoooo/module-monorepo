@@ -12,7 +12,7 @@ export default {
   },
   plugins: [
     resolve(), //node_modules에서 모듈을 불러올수 있도록 해줌, ts/tsx 파일도 불러올수 있음
-    terser(), //생성된 es번들을 최소화하기 위한 플러그인
+    // terser(), //생성된 es번들을 최소화하기 위한 플러그인
     babel({
       babelHelpers: 'bundled',
       presets: ['@babel/preset-env'],
