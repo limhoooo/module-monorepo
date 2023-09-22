@@ -4,7 +4,13 @@ import Component from 'component-h';
 
 export default class TodoInput extends Component {
   onMounted() {
-    this.props.todoInputEvent(this.target);
+    const addTodoBtn = document.querySelector('.addTodo');
+    addTodoBtn.onclick = () => {
+      let inputValue = document.querySelector('.todoInput').value;
+      if (!inputValue) return;
+      this.props.store.dispatch({ type: 'ADD_TODO', payload: inputValue });
+      document.querySelector('.todoInput').value = '';
+    };
   }
   template() {
     return (

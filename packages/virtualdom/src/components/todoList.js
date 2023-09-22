@@ -7,20 +7,38 @@ export default class TodoList extends Component {
     this.url = this.route.path;
   }
   onMounted() {
-    this.props?.todoListEvent(this.target);
+    const { items } = this.props.store.getState();
+    const deleteTodoBtn = document.querySelectorAll('.todoDeleteBtn');
+    const changeTodoInput = document.querySelectorAll('.todoCheckInput');
+    deleteTodoBtn.forEach(btn => {
+      btn.onclick = ({ target }) => {
+        const todoId = Number(target.getAttribute('data-todoId'));
+        const todoList = items.filter(item => item.id !== todoId);
+        this.props.store.dispatch({ type: 'DELETE_TODO', payload: todoList });
+      };
+    });
+    changeTodoInput.forEach(input => {
+      input.onclick = ({ target }) => {
+        const todoId = Number(target.getAttribute('id'));
+        const todoList = items.map(item => {
+          if (item.id === todoId) return { ...item, check: !item.check };
+          return item;
+        });
+        this.props.store.dispatch({ type: 'CHANGE_TODO', payload: todoList });
+      };
+    });
   }
   template() {
-    const { props } = this;
-    // console.log('template');
-    const items = props.items.filter(item => {
+    const { items } = this.props.store.getState();
+    const itemList = items.filter(item => {
       if (this.url === '/checked') return item.check;
       if (this.url === '/unchecked') return !item.check;
       return item;
     });
     return (
       <div>
-        <div>Total Count : {String(items.length)}</div>
-        {items.map(item => (
+        <div>Total Count : {String(itemList.length)}</div>
+        {itemList.map(item => (
           <div key={item.id}>
             <input
               type="checkbox"
