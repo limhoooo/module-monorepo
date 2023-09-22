@@ -29,7 +29,6 @@ export default class Component {
   }
   // 랜더링
   render() {
-    // console.log('render');
     updateElement(
       this.target,
       this.template(),

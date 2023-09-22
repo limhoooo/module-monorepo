@@ -97,12 +97,14 @@ function updateAttributes(parent, oldNode, newNode) {
     for (const [name, value] of Object.entries(newNode.props)) {
       if (value === oldNode.props[name]) continue;
       parent.setAttribute(name, value);
+      return;
     }
   }
   if (oldNode.props) {
     for (const [name] of Object.entries(oldNode.props)) {
       if (newNode.props[name] !== undefined) continue;
       parent.removeAttribute(name);
+      return;
     }
   }
 }
@@ -114,7 +116,7 @@ function recursionChildren(updateElement, parent, newNode, oldNode, index) {
 
   if (checkPropsKey(newNode)) {
     const keyIndex = propsKeyIndexParse(newNode, oldNode);
-    for (let i = keyIndex.length - 1; i >= 0; i--) {
+    for (let i = max - 1; i >= 0; i--) {
       updateElement(
         parent.childNodes[index],
         newNode.children[keyIndex[i].indexA],
