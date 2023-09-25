@@ -31,6 +31,11 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
+    overrides: [
+      {
+        files: ['*.html'],
+      },
+    ],
     'no-restricted-syntax': 'off',
   },
 };

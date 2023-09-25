@@ -1,3 +1,5 @@
+/** @jsx h */
+import { h, createElement } from '../core/parse.js';
 import Component from 'component-h';
 
 export default class NotFound extends Component {
@@ -6,8 +8,6 @@ export default class NotFound extends Component {
     this.render();
   }
   template() {
-    return `
-              <div>NotFound</div>
-            `;
+    return createElement(<div>NotFound</div>);
   }
 }

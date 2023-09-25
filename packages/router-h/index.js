@@ -48,7 +48,7 @@ export default class Routes {
     this.matchRoute.params = Object.assign({}, ...paramsObj);
   }
   #render(component) {
-    component(this.matchRoute);
+    component && component(this.matchRoute);
   }
   #setNavigate(e) {
     const navigate = e.target.getAttribute('data-navigate');
