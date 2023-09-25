@@ -48,7 +48,7 @@ export default class Routes {
     this.matchRoute.params = Object.assign({}, ...paramsObj);
   }
   #render(component) {
-    component?.(this.matchRoute);
+    component(this.matchRoute);
   }
   #setNavigate(e) {
     const navigate = e.target.getAttribute('data-navigate');
@@ -63,3 +63,21 @@ export default class Routes {
     window.addEventListener('popstate', () => this.#checkRoute());
   }
 }
+
+// ex
+// const Home = () => '<h1>Welcome to the Home Page</h1>';
+// const Mypage = matchRoute =>
+//   `<h1>Welcome to the mypage Page</h1><br>name : ${matchRoute.params.name}<br>age : ${matchRoute.params.age}`;
+// const Content = () => '<h1>Welcome to the Content Page</h1>';
+// const Main = () => '<h1>Welcome to the Main Page</h1>';
+// const NotFound = () => '<h1>404</h1>';
+
+// const routes = new Routes('app');
+
+// routes
+//   .addRoute('/', Home)
+//   .addRoute('/main', Main)
+//   .addRoute('/mypage/login/:name/:age', Mypage)
+//   .addRoute('/content/:key/:value', Content)
+//   .setNotFound(NotFound)
+//   .init();
