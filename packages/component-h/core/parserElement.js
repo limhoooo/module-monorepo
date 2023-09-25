@@ -115,24 +115,60 @@ function recursionChildren(updateElement, parent, newNode, oldNode, index) {
   const max = Math.max(newLength, oldLength);
 
   if (checkPropsKey(newNode)) {
-    const keyIndex = propsKeyIndexParse(newNode, oldNode);
-    for (let i = max - 1; i >= 0; i--) {
-      updateElement(
-        parent.childNodes[index],
-        newNode.children[keyIndex[i].indexA],
-        oldNode.children[keyIndex[i].indexB],
-        i,
-      );
-    }
+    hasKeyRecursionChildren(
+      updateElement,
+      parent,
+      newNode,
+      oldNode,
+      index,
+      max,
+    );
   } else {
-    for (let i = max - 1; i >= 0; i--) {
-      updateElement(
-        parent.childNodes[index],
-        newNode.children[i],
-        oldNode.children[i],
-        i,
-      );
-    }
+    noneKeyRecursionChildren(
+      updateElement,
+      parent,
+      newNode,
+      oldNode,
+      index,
+      max,
+    );
+  }
+}
+
+function hasKeyRecursionChildren(
+  updateElement,
+  parent,
+  newNode,
+  oldNode,
+  index,
+  max,
+) {
+  const keyIndex = propsKeyIndexParse(newNode, oldNode);
+  for (let i = max - 1; i >= 0; i--) {
+    updateElement(
+      parent.childNodes[index],
+      newNode.children[keyIndex[i].indexA],
+      oldNode.children[keyIndex[i].indexB],
+      i,
+    );
+  }
+}
+
+function noneKeyRecursionChildren(
+  updateElement,
+  parent,
+  newNode,
+  oldNode,
+  index,
+  max,
+) {
+  for (let i = max - 1; i >= 0; i--) {
+    updateElement(
+      parent.childNodes[index],
+      newNode.children[i],
+      oldNode.children[i],
+      i,
+    );
   }
 }
 

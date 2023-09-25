@@ -36,3 +36,19 @@ export default class Fetch {
     }
   }
 }
+
+// async function test() {
+//   const fetchApi = new fetch('https://jsonplaceholder.typicode.com', {
+//     Authorization: 'aaa',
+//   });
+
+//   const aaa = await fetchApi.httpRequest('GET', '/todos/1');
+//   const bbb = await fetchApi.httpRequest('POST', '/posts', {
+//     title: 'foo',
+//     body: 'bar',
+//     userId: 1,
+//   });
+//   console.log(aaa);
+//   console.log(bbb);
+// }
+// test();
