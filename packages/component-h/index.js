@@ -1,30 +1,39 @@
-// 자식 컴포넌트에서 만든 HTML 랜더링기능
-// state 변경시 재랜더링
-// 컴포넌트 생성시 초기데이터 생성
-
+import { updateElement, changeJsx } from './core/parserElement.js';
 export default class Component {
-  #target = null;
-  constructor(target) {
-    this.#target = target;
+  constructor(target, props, route) {
+    this.target = document.querySelector(target);
     this.state = null;
+    this.arrState = [];
+    this.props = props;
+    this.route = route;
     this.setup();
-  }
-  template() {}
-  setEvent() {}
-  setup() {}
-  setState(newState) {
-    this.state = { ...this.state, ...newState };
     this.render();
   }
-  // 랜더기능 (하위에 상속되서 하위 템플릿 랜더링)
+  template() {} // 랜더링할 마크업
+  setup() {} // 랜더링 전 data setup
+  onMounted() {} // 랜더링 이후 동작
+
+  // state 변경
+  // batch update
+  setState(newState) {
+    this.arrState = [...this.arrState, { ...newState }];
+    requestAnimationFrame(() => {
+      this.executeArrState();
+    });
+  }
+  executeArrState() {
+    if (this.arrState.length === 0) return;
+    this.arrState.forEach(state => (this.state = { ...this.state, ...state }));
+    this.arrState = [];
+    this.render();
+  }
+  // 랜더링
   render() {
-    const mainNode = document.createElement('main');
-    mainNode.innerHTML = this.template();
-    if (this.#target.firstChild) {
-      this.#target.replaceChild(mainNode, this.#target.firstChild);
-    } else {
-      this.#target.appendChild(mainNode);
-    }
-    this.setEvent();
+    updateElement(
+      this.target,
+      this.template(),
+      changeJsx(this.target).children[0],
+    );
+    this.onMounted();
   }
 }

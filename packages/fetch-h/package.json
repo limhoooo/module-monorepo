@@ -1,23 +1,20 @@
 {
-  "name": "spa-project",
-  "version": "0.0.0",
+  "name": "component-h",
+  "version": "1.0.0",
   "description": "> TODO: description",
   "author": "lim ho <dlagh123@gmail.com>",
   "homepage": "https://github.com/limhoooo/module-monorepo#readme",
   "license": "ISC",
-  "main": "lib/spa-project.js",
+  "main": "lib/component.js",
   "type": "module",
-  "scripts": {
-    "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js",
-    "build": "rollup -c",
-    "start": "rollup -c rollup.config.js -w"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/limhoooo/module-monorepo.git"
   },
-  "bugs": {
-    "url": "https://github.com/limhoooo/module-monorepo/issues"
+  "scripts": {
+    "test": "node ./__tests__/component.test.js",
+    "build": "rollup -c",
+    "start": "rollup -c rollup.config.js -w"
   },
   "dependencies": {}
 }
