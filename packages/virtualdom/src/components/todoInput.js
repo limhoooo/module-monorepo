@@ -1,18 +1,9 @@
 /** @jsx h */
-import { h, createElement } from '../core/parse.js';
+import { h } from '../core/parse.js';
 import Component from 'component-h';
 
-export default class TodoInput extends Component {
-  onMounted() {
-    const addTodoBtn = document.querySelector('.addTodo');
-    addTodoBtn.onclick = () => {
-      let inputValue = document.querySelector('.todoInput').value;
-      if (!inputValue) return;
-      this.props.store.dispatch({ type: 'ADD_TODO', payload: inputValue });
-      document.querySelector('.todoInput').value = '';
-    };
-  }
-  template() {
+export default function TodoInput(target, props, route) {
+  function template() {
     return (
       <div>
         <input type="text" class="todoInput" />
@@ -20,4 +11,8 @@ export default class TodoInput extends Component {
       </div>
     );
   }
+  new Component({
+    target,
+    template,
+  });
 }
