@@ -2,7 +2,7 @@ export default class Fetch {
   #baseUrl = null;
   #headers = {};
   #timeout = null;
-  constructor(baseUrl, headers, time) {
+  constructor(baseUrl, headers, time = 5000) {
     this.#baseUrl = baseUrl;
     this.#headers = {
       ...headers,
@@ -33,8 +33,8 @@ export default class Fetch {
           options.body = JSON.stringify(payload);
         }
       }
-
-      const response = await fetch(this.#baseUrl + url, options);
+      const parseurl = this.#baseUrl ? this.#baseUrl + url : url;
+      const response = await fetch(parseurl, options);
       if (!response.ok) {
         throw new Error(`Error status: ${response.status}`);
       }
@@ -54,6 +54,7 @@ export default class Fetch {
 
   get(url, data, headers) {
     const parseUrl = data ? parseUrlAndParam(url, data) : url;
+    console.log(parseUrl);
     return this.#httpRequest('GET', parseUrl, null, headers);
   }
   post(url, data, headers) {
@@ -97,38 +98,38 @@ export function objectToQueryString(obj) {
 }
 /////////////////////////////////////////////////////////////////
 
-// 별도 파일 분리
-// ex : http.js
-const instanceA = new Fetch(
-  'https://jsonplaceholder.typicode.com',
-  {
-    'Content-Type': 'application/json; charset=utf-8',
-  },
-  5000,
-);
-const instanceB = new Fetch(
-  'https://test.co.kr',
-  {
-    'Content-Type': 'application/json; charset=utf-8',
-  },
-  5000,
-);
+// // 별도 파일 분리
+// // ex : http.js
+// const instanceA = new Fetch(
+//   'https://jsonplaceholder.typicode.com',
+//   {
+//     'Content-Type': 'application/json; charset=utf-8',
+//   },
+//   5000,
+// );
+// const instanceB = new Fetch(
+//   'https://test.co.kr',
+//   {
+//     'Content-Type': 'application/json; charset=utf-8',
+//   },
+//   5000,
+// );
 
-// 별도 파일 분리
-// ex : /api/todo.js
-// API 별 export 해서 사용
-export const getTodos = () => instanceA.get(`/posts`);
-export const postTodos = data => instanceA.post(`/posts`, data);
+// // 별도 파일 분리
+// // ex : /api/todo.js
+// // API 별 export 해서 사용
+// export const getTodos = () => instanceA.get(`/posts`);
+// export const postTodos = data => instanceA.post(`/posts`, data);
 
-// 호출하는부분
-async function test() {
-  const obj = {
-    title: 'foo',
-    body: 'bar',
-    userId: 1,
-  };
-  const todoList = await getTodos();
-  console.log(todoList);
-  await postTodos(obj);
-}
-test();
+// // 호출하는부분
+// async function test() {
+//   const obj = {
+//     title: 'foo',
+//     body: 'bar',
+//     userId: 1,
+//   };
+//   const todoList = await getTodos();
+//   console.log(todoList);
+//   await postTodos(obj);
+// }
+// test();
