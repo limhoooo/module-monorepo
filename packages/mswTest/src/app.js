@@ -7,6 +7,13 @@ import TodoList from './components/todoList.js';
 import { addTodoEvent, todoListEvent } from './event/event.js';
 
 export default function App(target, props, route) {
+  async function logJSONData() {
+    const response = await fetch('/todos');
+    const jsonData = await response.json();
+    console.log(jsonData);
+  }
+  logJSONData();
+
   const setComponent = store => {
     const todoInput = () => TodoInput('#todoInputNode', { store });
     const todoFilter = () => TodoFilter('#todoFilterNode', { store });

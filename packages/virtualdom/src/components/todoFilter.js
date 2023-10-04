@@ -1,9 +1,9 @@
 /** @jsx h */
-import { h, createElement } from '../core/parse.js';
+import { h } from '../core/parse.js';
 import Component from 'component-h';
 
-export default class TodoFilter extends Component {
-  template() {
+export default function TodoFilter(target, props, route) {
+  function template() {
     return (
       <div>
         <button class="all" data-navigate="/">
@@ -14,4 +14,8 @@ export default class TodoFilter extends Component {
       </div>
     );
   }
+  new Component({
+    target,
+    template,
+  });
 }

@@ -1,35 +1,14 @@
 /** @jsx h */
-import { h, createElement } from '../core/parse.js';
+import { h } from '../core/parse.js';
 import Component from 'component-h';
 
-export default class TodoList extends Component {
-  setup() {
-    this.url = this.route.path;
+export default function TodoList(target, props, route) {
+  function onCreated() {
+    this.url = route.path;
   }
-  onMounted() {
-    const { items } = this.props.store.getState();
-    const deleteTodoBtn = document.querySelectorAll('.todoDeleteBtn');
-    const changeTodoInput = document.querySelectorAll('.todoCheckInput');
-    deleteTodoBtn.forEach(btn => {
-      btn.onclick = ({ target }) => {
-        const todoId = Number(target.getAttribute('data-todoId'));
-        const todoList = items.filter(item => item.id !== todoId);
-        this.props.store.dispatch({ type: 'DELETE_TODO', payload: todoList });
-      };
-    });
-    changeTodoInput.forEach(input => {
-      input.onclick = ({ target }) => {
-        const todoId = Number(target.getAttribute('id'));
-        const todoList = items.map(item => {
-          if (item.id === todoId) return { ...item, check: !item.check };
-          return item;
-        });
-        this.props.store.dispatch({ type: 'CHANGE_TODO', payload: todoList });
-      };
-    });
-  }
-  template() {
-    const { items } = this.props.store.getState();
+
+  function template() {
+    const { items } = props.store.getState();
     const itemList = items.filter(item => {
       if (this.url === '/checked') return item.check;
       if (this.url === '/unchecked') return !item.check;
@@ -55,4 +34,9 @@ export default class TodoList extends Component {
       </div>
     );
   }
+  new Component({
+    target,
+    onCreated,
+    template,
+  });
 }

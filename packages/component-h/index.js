@@ -1,17 +1,15 @@
 import { updateElement, changeJsx } from './core/parserElement.js';
 export default class Component {
-  constructor(target, props, route) {
+  constructor({ target, template, onCreated, onMounted }) {
     this.target = document.querySelector(target);
     this.state = null;
     this.arrState = [];
-    this.props = props;
-    this.route = route;
-    this.setup();
+    this.template = template;
+    this.onMounted = onMounted;
+    this.onCreated = onCreated;
+    this.onCreated?.();
     this.render();
   }
-  template() {} // 랜더링할 마크업
-  setup() {} // 랜더링 전 data setup
-  onMounted() {} // 랜더링 이후 동작
 
   // state 변경
   // batch update
@@ -34,6 +32,6 @@ export default class Component {
       this.template(),
       changeJsx(this.target).children[0],
     );
-    this.onMounted();
+    this.onMounted?.();
   }
 }
