@@ -4,7 +4,6 @@ const initState = {
 
 export default class CreateStore {
   constructor(reducer) {
-    console.log(reducer);
     this.reducer = reducer;
     this.state = initState;
     this.listeners = [];

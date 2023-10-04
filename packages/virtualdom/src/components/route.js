@@ -1,6 +1,5 @@
 import Routes from 'router-h';
 import NotFound from './notfound.js';
-import TodoList from './todoList.js';
 import App from '../app.js';
 
 export default class Route {
@@ -12,10 +11,10 @@ export default class Route {
   initRouter() {
     const routes = new Routes();
     routes
-      .addRoute('/', route => new App(this.target, this.props, route))
-      .addRoute('/checked', route => new App(this.target, this.props, route))
-      .addRoute('/unchecked', route => new App(this.target, this.props, route))
-      .setNotFound(() => new NotFound('#app'))
+      .addRoute('/', route => App(this.target, this.props, route))
+      .addRoute('/checked', route => App(this.target, this.props, route))
+      .addRoute('/unchecked', route => App(this.target, this.props, route))
+      .setNotFound(() => NotFound('#app'))
       .init();
   }
 }

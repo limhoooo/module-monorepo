@@ -37,13 +37,7 @@ export function createElement(node) {
     .filter(([attr, value]) => value)
     .forEach(([attr, value]) => $el.setAttribute(attr, value));
 
-  try {
-    node.children.map(createElement).forEach(child => $el.appendChild(child));
-  } catch (e) {
-    console.log(node);
-    console.error(e);
-  }
-
+  node.children.map(createElement).forEach(child => $el.appendChild(child));
   return $el;
 }
 
@@ -173,13 +167,7 @@ function noneKeyRecursionChildren(
 }
 
 function checkPropsKey(newNode) {
-  let check = false;
-  for (let i = 0; i < newNode.children.length; i++) {
-    if (newNode.children[i]?.props?.key) {
-      return (check = true);
-    }
-  }
-  return check;
+  return newNode.children.some(child => child?.props?.key);
 }
 
 function propsKeyIndexParse(newNode, oldNode) {
