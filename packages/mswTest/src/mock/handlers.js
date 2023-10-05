@@ -36,15 +36,15 @@ const design = [
 ];
 
 export const handlers = [
-  rest.get('/api/tech', (req, res, ctx) => {
+  rest.get('/api/articles/tech', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(techList));
   }),
 
-  rest.get('/api/design', (req, res, ctx) => {
+  rest.get('/api/articles/design', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(design));
   }),
 
-  rest.get('/api/tech/:id', (req, res, ctx) => {
+  rest.get('/api/articles/tech/:id', (req, res, ctx) => {
     const id = Number(req.params.id);
     const tech = techList.find(article => article.id === id);
     if (tech) {
@@ -52,7 +52,7 @@ export const handlers = [
     }
   }),
 
-  rest.get('/api/design/:id', (req, res, ctx) => {
+  rest.get('/api/articles/design/:id', (req, res, ctx) => {
     const { id } = Number(req.params);
     const design = techList.find(article => article.id === id);
     if (design) {
