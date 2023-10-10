@@ -4,7 +4,6 @@ import Fetch from 'fetch-h';
 if (process.env.NODE_ENV === 'development') {
   worker.start();
 }
-
 class InitTodoFetch extends Fetch {
   constructor() {
     super();
@@ -26,23 +25,23 @@ class InitTodoFetch extends Fetch {
       },
     ]);
   }
+
+  todo = {
+    getTodos: () => this.get({ url: '/todos' }),
+    getTodosParam: (data, obj) =>
+      instance.get({
+        url: '/todos',
+        param: data,
+      }),
+    postTodo: data =>
+      instance.post({
+        url: '/todos',
+        payload: data,
+      }),
+  };
 }
 
 const instance = new InitTodoFetch();
-const getTodos = () =>
-  instance.get({
-    url: '/todos',
-  });
-const getTodosParam = (data, obj) =>
-  instance.get({
-    url: '/todos',
-    param: data,
-  });
-const postTodo = data =>
-  instance.post({
-    url: '/todos',
-    payload: data,
-  });
 
 async function app() {
   const obj = {
@@ -52,8 +51,8 @@ async function app() {
   };
   const queryParamsArray = ['param1=value1', 'param2=value2', 'param3=value3'];
 
-  console.log(await getTodos());
-  console.log(await getTodosParam(queryParamsArray, obj));
-  console.log(await postTodo(obj));
+  console.log(await instance.todo.getTodos());
+  console.log(await instance.todo.getTodosParam(queryParamsArray, obj));
+  console.log(await instance.todo.postTodo(obj));
 }
 app();
