@@ -1,0 +1,28 @@
+{
+  "name": "spa-project",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "lim ho <dlagh123@gmail.com>",
+  "homepage": "https://github.com/limhoooo/module-monorepo#readme",
+  "license": "ISC",
+  "main": "lib/spa-project.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js",
+    "build": "rollup -c",
+    "start": "node --max-old-space-size=4096 ../../node_modules/rollup/dist/bin/rollup -c rollup.config.js --bundleConfigAsCjs -w",
+    "fix-memory-limit": "cross-env LIMIT=2048 increase-memory-limit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/limhoooo/module-monorepo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/limhoooo/module-monorepo/issues"
+  },
+  "dependencies": {},
+  "msw": {
+    "workerDirectory": "public"
+  },
+  "devDependencies": {}
+}

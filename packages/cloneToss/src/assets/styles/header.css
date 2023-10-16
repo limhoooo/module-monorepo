@@ -1,0 +1,114 @@
+header {
+  width: 100%;
+  min-height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #fff;
+  border-bottom: 1px solid #e1e1e1;
+}
+.nav__container {
+}
+.nav__inner {
+  width: 1024px;
+  height: 60px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+.nav__inner .nav__logo img {
+  width: 110px;
+}
+.nav__inner .nav__content {
+  display: flex;
+  height: 100%;
+}
+.nav__inner .nav__content .nav__content__menu {
+  display: flex;
+}
+.nav__inner .nav__content .nav__content__menu li {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  height: 100%;
+}
+.nav__inner .nav__content .nav__content__menu li a {
+  display: flex;
+  align-items: center;
+  padding: 12px 10px;
+  font-size: 15px;
+  color: #4e5968;
+  text-decoration: none;
+}
+
+.nav__inner .nav__content .nav__content__menu li a:hover {
+  background-color: rgba(2, 32, 71, 0.05);
+  border-radius: 5px;
+}
+.nav__content__menu__mobile {
+  display: none;
+}
+.nav__content__menu__mobile .nav__content__menu__mobile_btn {
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
+  opacity: 0.4;
+  background: none;
+  background-image: url('../image/more.png');
+}
+.nav__content__menu__mobile .close {
+  background-image: url('../image/close.png');
+}
+.nav__content__menu__mobile__nav {
+}
+.nav__content__menu__mobile__nav__menu_btn {
+  padding: 20px;
+}
+.nav__content__menu__mobile__nav .nav__content__menu__mobile__nav__menu li a {
+  padding: 18px 20px;
+  width: 100%;
+  display: block;
+  color: #4e5968;
+}
+.nav__content__menu__mobile__nav
+  .nav__content__menu__mobile__nav__menu
+  li
+  a:hover {
+  background-color: rgba(2, 32, 71, 0.05);
+}
+.nav__content__menu__mobile__nav
+  .nav__content__menu__mobile__nav__menu
+  li
+  button {
+  width: 100%;
+  margin: 0 auto;
+  display: block;
+  padding: 14px;
+}
+
+.hidden {
+  display: none;
+}
+
+@media screen and (max-width: 1040px) {
+  .nav__inner {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .nav__inner .nav__content .nav__content__menu {
+    display: none;
+  }
+  .nav__content__menu__mobile {
+    display: flex;
+    align-items: center;
+  }
+}
+@media screen and (min-width: 700px) {
+  .nav__content__menu__mobile__nav {
+    display: none;
+  }
+}
