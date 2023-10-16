@@ -89,14 +89,14 @@ function changeNode(parent, newNode, oldNode, index) {
 function updateAttributes(parent, oldNode, newNode) {
   if (newNode.props) {
     for (const [name, value] of Object.entries(newNode.props)) {
-      if (value === oldNode.props[name]) continue;
+      if (value === oldNode.props?.[name]) continue;
       parent.setAttribute(name, value);
       return;
     }
   }
   if (oldNode.props) {
     for (const [name] of Object.entries(oldNode.props)) {
-      if (newNode.props[name] !== undefined) continue;
+      if (newNode.props?.[name] !== undefined) continue;
       parent.removeAttribute(name);
       return;
     }
@@ -194,7 +194,8 @@ function propsKeyIndexParse(newNode, oldNode) {
       result = [...result, { key, indexA, indexB }];
     }
   });
-  return result;
+  const resultSort = result.sort((a, b) => b.indexA - a.indexA);
+  return resultSort;
 }
 function convertAttributeValue(value) {
   // 숫자로 변환 가능한 경우 숫자로 변환
