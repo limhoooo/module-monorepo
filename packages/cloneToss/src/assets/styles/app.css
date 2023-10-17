@@ -1,0 +1,43 @@
+@import './default.css';
+@import './style.css';
+@import './header.css';
+@import './footer.css';
+@import './article.css';
+
+.incruit__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 24px;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  background: rgba(2, 9, 19, 0.91);
+}
+
+.incruit__container img {
+  width: 186px;
+  hight: 186px;
+}
+
+.incruit__container .incruit__text h3 {
+  font-size: 26px;
+  color: #fff;
+  margin-bottom: 16px;
+}
+.incruit__container .incruit__text p {
+  font-size: 17px;
+  color: #fff;
+  margin: 8px 0 0 0;
+}
+.incruit__container .incruit__text button {
+  margin-top: 24px;
+}
+
+@media screen and (max-width: 700px) {
+  .incruit__container .incruit__text h3 {
+    font-size: 20px;
+  }
+  .incruit__container .incruit__text p {
+    font-size: 15px;
+  }
+}

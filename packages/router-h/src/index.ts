@@ -5,15 +5,20 @@ type RouteType = {
   paramsKey: string[];
   params: string[] | null;
 };
-
+type RoutesType = {
+  scrollTo: scrollToType;
+};
+type scrollToType = { x: number; y: number } | undefined;
 export default class Routes {
   private routes: RouteType[];
   private notFoundComponent: Function | null;
+  private scrollTo: scrollToType;
   matchRoute: RouteType | undefined;
-  constructor() {
+  constructor({ scrollTo }: RoutesType) {
     this.routes = [];
     this.notFoundComponent = null;
     this.matchRoute;
+    this.scrollTo = scrollTo;
   }
 
   addRoute(url: string, component: Function): Routes {
@@ -61,14 +66,22 @@ export default class Routes {
   }
   private render(component: Function | null) {
     component?.(this.matchRoute);
+    this.scrollTo && window.scrollTo(this.scrollTo.x, this.scrollTo.y);
   }
   private setNavigate(e: MouseEvent) {
     const target = e.target as HTMLElement;
-    const navigate = target.getAttribute('data-navigate');
-    if (!navigate) return;
-    e.preventDefault();
-    history.pushState({}, '', navigate);
-    this.checkRoute();
+    let currentElement = target as any;
+    // 클릭한 엘리먼트의 상위엘리먼트 검색
+    while (currentElement) {
+      const navigate = currentElement.getAttribute('data-navigate');
+      if (navigate) {
+        e.preventDefault();
+        history.pushState({}, '', navigate);
+        this.checkRoute();
+        return;
+      }
+      currentElement = currentElement.parentElement;
+    }
   }
   init() {
     this.checkRoute();

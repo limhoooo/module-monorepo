@@ -79,8 +79,8 @@ export default class Fetch {
   setTimeout(timeout) {
     this.#timeout = timeout;
   }
-  get({ url, param, headers }) {
-    const parseUrl = param ? parseUrlAndParam({ url, param }) : url;
+  get({ url, params, headers }) {
+    const parseUrl = params ? parseUrlAndParam({ url, params }) : url;
     return this.#httpRequest({ method: 'GET', url: parseUrl, headers });
   }
   post({ url, payload, headers }) {
@@ -97,17 +97,17 @@ export default class Fetch {
   }
 }
 
-function parseUrlAndParam({ url, data }) {
+function parseUrlAndParam({ url, params }) {
   // 쿼리파라미터 & 쿼리스트링 파싱
-  if (!data) return url;
+  if (!params) return url;
 
-  if (data !== null && typeof data === 'object') {
-    const queryString = Array.isArray(data)
-      ? parseArrayToQueryString(data)
-      : parseObjectToQueryString(data);
+  if (params !== null && typeof params === 'object') {
+    const queryString = Array.isArray(params)
+      ? parseArrayToQueryString(params)
+      : parseObjectToQueryString(params);
     return `${url}?${queryString}`;
   } else {
-    return `${url}/${data}`;
+    return `${url}/${params}`;
   }
 }
 function parseObjectToQueryString(obj) {
