@@ -1,11 +1,10 @@
 {
-  "name": "spa-project",
+  "name": "todolist",
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "lim ho <dlagh123@gmail.com>",
   "homepage": "https://github.com/limhoooo/module-monorepo#readme",
   "license": "ISC",
-  "main": "lib/spa-project.js",
   "type": "module",
   "scripts": {
     "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js",
