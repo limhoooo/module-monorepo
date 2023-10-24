@@ -1,11 +1,10 @@
 {
-  "name": "component-h",
+  "name": "fetch-h",
   "version": "1.0.0",
   "description": "> TODO: description",
   "author": "lim ho <dlagh123@gmail.com>",
   "homepage": "https://github.com/limhoooo/module-monorepo#readme",
   "license": "ISC",
-  "main": "lib/component.js",
   "type": "module",
   "repository": {
     "type": "git",

@@ -6,6 +6,7 @@
   ],
   "type": "module",
   "dependencies": {
+    "axios": "^1.5.1",
     "cloneDeep": "file:packages/cloneDeep",
     "component-h": "file:packages/component-h",
     "fetch-h": "file:packages/fetch-h",
