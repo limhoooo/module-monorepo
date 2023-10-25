@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { _typography } from '../../styles/Typography';
+import { TypeTypo, _typography } from '@/src/styles/Typography';
 import { TypeFontStyle, TypeFontWeight } from '@/src/styles/theme';
 
 /**
@@ -18,44 +18,28 @@ import { TypeFontStyle, TypeFontWeight } from '@/src/styles/theme';
  * }
  *```
  */
-
-type TypeTypo =
-  | 'heading1'
-  | 'heading2'
-  | 'heading3'
-  | 'heading4'
-  | 'heading5'
-  | 'heading6'
-  | 'text_xxl'
-  | 'text_xl'
-  | 'text_l'
-  | 'text_m'
-  | 'text_s'
-  | 'text_xs'
-  | 'text_xxs';
-
-type TypographyProps = {
+type TypeTypoHtml = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
+type TypographyProps = TypographyStyled & React.ComponentProps<TypeTypoHtml>;
+type TypographyStyled = {
   tag?: string;
-  type?: TypeFontStyle;
+  fontstyle?: TypeFontStyle;
   color?: string;
   weight?: TypeFontWeight;
   typo: TypeTypo;
-  children: React.ReactNode;
 };
 
 const Typography = ({
   tag,
   color = '#121212',
-  weight,
-  children,
   typo,
-  type,
+  children,
+  ...otherProps
 }: TypographyProps) => {
-  const Element: any = styled.span`
+  const Element = styled.span<TypographyStyled>`
     ${_typography[typo]}
   `;
   return (
-    <Element as={tag} color={color} typo={typo} type={type} weight={weight}>
+    <Element as={tag} typo={typo} {...otherProps}>
       {children}
     </Element>
   );

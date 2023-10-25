@@ -8,7 +8,7 @@
  * 1. 타이포그라피에 작성 된 css 를 글로벌테마 영역으로 옮긴다.
  */
 
-import { css } from 'styled-components';
+import { CSSProp, css } from 'styled-components';
 import { fontSize, fontWeight, letterSpacing, lineHeight } from './theme';
 
 /**
@@ -36,9 +36,25 @@ import { fontSize, fontWeight, letterSpacing, lineHeight } from './theme';
 //     letter-spacing: -1px;
 //   `,
 // };
+export type TypeTypo =
+  | 'heading1'
+  | 'heading2'
+  | 'heading3'
+  | 'heading4'
+  | 'heading5'
+  | 'heading6'
+  | 'text_xxl'
+  | 'text_xl'
+  | 'text_l'
+  | 'text_m'
+  | 'text_s'
+  | 'text_xs'
+  | 'text_xxs';
 
+type TypeTypoSchemaCss = Record<string, CSSProp>;
+type TypeTypoSchema = Record<TypeTypo, TypeTypoSchemaCss>;
 // to be
-const typographySchema = {
+const typographySchema: TypeTypoSchema = {
   heading1: {
     fontSize: fontSize.heading1,
     fontWeight: fontWeight.basic,
@@ -105,9 +121,10 @@ const typographySchema = {
   },
 };
 
-function generatedTypo(schema: any) {
-  const typography: any = {};
-  for (const styleName in schema) {
+function generatedTypo(schema: TypeTypoSchema) {
+  const typography: TypeTypoSchemaCss = {};
+  for (const item in schema) {
+    const styleName = item as TypeTypo;
     const { fontSize, fontWeight, lineHeight, letterSpacing } =
       schema[styleName];
 
