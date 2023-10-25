@@ -151,9 +151,68 @@ export const letterSpacing: Record<FontLetterSpacing, CSSProp> = {
     letter-spacing: -0.6px;
   `,
 };
+
+const buttonSize = {
+  xl: css`
+    padding: 19px 55px;
+    ${fontSize.xxl};
+  `,
+  l: css`
+    padding: 19px 44px;
+    ${fontSize.xl};
+  `,
+  m: css`
+    padding: 10px 26px;
+    ${fontSize.m};
+  `,
+  s: css`
+    padding: 9px 24px;
+    ${fontSize.s};
+  `,
+  xs: css`
+    padding: 8px 20px;
+    ${fontSize.xs};
+  `,
+};
+const buttonBgColor = {
+  black: css`
+    color: #fff;
+    background-color: #121212;
+    border: 2px solid #121212;
+  `,
+  white: css`
+    color: #121212;
+    background-color: #fff;
+    border: 2px solid #121212;
+  `,
+  none: css`
+    color: #121212;
+    background-color: none;
+    border: 2px solid #121212;
+  `,
+  primary: css`
+    color: #fff;
+    background-color: #007bff;
+    border: 2px solid #007bff;
+  `,
+};
+const buttonRadius = {
+  pill: css`
+    border-radius: 39px;
+  `,
+  rounded: css`
+    border-radius: 6px;
+  `,
+  sharp: css`
+    border-radius: 0px;
+  `,
+};
 export const theme = {
   fontSize,
   fontWeight,
   lineHeight,
   letterSpacing,
+  buttonSize,
+  buttonBgColor,
+  buttonRadius,
 };
