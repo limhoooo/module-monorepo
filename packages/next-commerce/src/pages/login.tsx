@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Typography from '../components/styles/Typography';
 import styled from 'styled-components';
 import Button from '../components/styles/Button';
-import axios from 'axios';
 import { useRouter } from 'next/router';
+import { userApi } from '../service/api';
+import { useRecoilState } from 'recoil';
+import { isLoginAtom, userStateAtom } from '../stores/login';
 
 const Wrapper = styled.section`
   width: 100%;
@@ -45,14 +47,19 @@ const CheckBox = styled.div`
 
 const Login = () => {
   const router = useRouter();
+  const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
+  const [userState, setUserState] = useRecoilState(userStateAtom);
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isCheck, setIsCheck] = useState<boolean>(false);
+
   const submit = async () => {
     const param = { id, password };
-    const { data } = await axios.post('/api/login', param);
+    const { data } = await userApi.login(param);
     if (data.status === 200) {
       router.push('/home');
+      setUserState({ name: data.name });
+      setIsLogin(true);
     } else {
       setIsCheck(true);
     }
@@ -61,9 +68,8 @@ const Login = () => {
     <Wrapper>
       <LoginInner>
         <LoginHeader>
-          <Typography typo={'heading_4'}>Sign in</Typography>
-
-          <Typography tag={'span'} typo={'text_s'}>
+          <Typography typo={'heading4'}>Sign in</Typography>
+          <Typography tag={'p'} typo={'text_s'} className="mt-2">
             Don't have an accout yet?{' '}
             <Typography tag={'span'} typo={'text_s'} weight={'bold'}>
               Sing up
@@ -89,7 +95,7 @@ const Login = () => {
             </Typography>
           )}
         </CheckBox>
-        <Button radius={'rounded'} full={'true'} size={'l'} onClick={submit}>
+        <Button radius={'rounded'} $full={true} size={'l'} onClick={submit}>
           Sign in
         </Button>
       </LoginInner>

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { TypeTypo, _typography } from '@/src/styles/Typography';
 import { TypeFontStyle, TypeFontWeight } from '@/src/styles/theme';
 
@@ -22,7 +22,7 @@ type TypeTypoHtml = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
 type TypographyProps = TypographyStyled & React.ComponentProps<TypeTypoHtml>;
 type TypographyStyled = {
   tag?: string;
-  fontstyle?: TypeFontStyle;
+  $type?: TypeFontStyle;
   color?: string;
   weight?: TypeFontWeight;
   typo: TypeTypo;
@@ -33,13 +33,17 @@ const Typography = ({
   color = '#121212',
   typo,
   children,
+  className,
   ...otherProps
 }: TypographyProps) => {
   const Element = styled.span<TypographyStyled>`
     ${_typography[typo]}
+    ${({ theme, weight }) => css`
+      ${weight && theme.fontWeight[weight]}
+    `}
   `;
   return (
-    <Element as={tag} typo={typo} {...otherProps}>
+    <Element as={tag} typo={typo} className={className} {...otherProps}>
       {children}
     </Element>
   );

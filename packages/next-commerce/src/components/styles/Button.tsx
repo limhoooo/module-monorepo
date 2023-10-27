@@ -1,6 +1,5 @@
-import React, { ButtonHTMLAttributes } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
-import { fontSize } from '../../styles/theme';
 
 type ButtonProps = ButtonStyled & React.ComponentProps<'button'>;
 
