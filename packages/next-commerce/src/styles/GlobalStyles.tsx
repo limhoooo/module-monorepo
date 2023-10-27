@@ -1,5 +1,26 @@
-import { createGlobalStyle } from "styled-components";
-import reset from "styled-reset";
+import styled, { createGlobalStyle, css } from 'styled-components';
+import reset from 'styled-reset';
+
+export const boxModel = () => {
+  return Array(10)
+    .fill(1)
+    .reduce((cssString, _, index) => {
+      return `${cssString}
+        .mt-${index} {
+          margin-top: ${index * 8}px !important;
+        }
+        .mb-${index} {
+          margin-bottom: ${index * 8}px !important;
+        }
+        .ml-${index} {
+          margin-left: ${index * 8}px !important;
+        }
+        .mr-${index} {
+          margin-right: ${index * 8}px !important;
+        }
+      `;
+    }, '');
+};
 
 const GlobalStyles = createGlobalStyle`
     ${reset}
@@ -33,6 +54,7 @@ const GlobalStyles = createGlobalStyle`
         background: transparent;
         cursor: pointer;
     }
+${boxModel()}
 `;
 
 export default GlobalStyles;
