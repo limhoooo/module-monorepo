@@ -1,98 +1,44 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { fontSize } from '../../styles/theme';
 
-const buttonSize = {
-  xl: css`
-    padding: 19px 55px;
-    font-size: ${fontSize.xxl};
-  `,
-  l: css`
-    padding: 19px 44px;
-    font-size: ${fontSize.xl};
-  `,
-  m: css`
-    padding: 10px 26px;
-    font-size: ${fontSize.m};
-  `,
-  s: css`
-    padding: 9px 24px;
-    font-size: ${fontSize.s};
-  `,
-  xs: css`
-    padding: 8px 20px;
-    font-size: ${fontSize.xs};
-  `,
-};
+type ButtonProps = ButtonStyled & React.ComponentProps<'button'>;
 
-const buttonRadius = {
-  pill: css`
-    border-radius: 39px;
-  `,
-  rounded: css`
-    border-radius: 6px;
-  `,
-  sharp: css`
-    border-radius: 0px;
-  `,
-};
-const buttonBgColor = {
-  black: css`
-    background-color: #121212;
-    color: #fff;
-    border: 2px solid #121212;
-  `,
-  white: css`
-    color: #121212;
-    background-color: #fff;
-    border: 2px solid #121212;
-  `,
-  none: css`
-    color: #121212;
-    background-color: none;
-    border: 2px solid #121212;
-  `,
-};
-
-type ButtonProps = {
-  bgcolor?: 'black' | 'white' | 'none';
+type ButtonStyled = {
+  bgcolor?: 'black' | 'white' | 'none' | 'primary';
   radius?: 'pill' | 'rounded' | 'sharp';
   size?: 'xl' | 'l' | 'm' | 's' | 'xs';
-  full?: 'true';
-  children: React.ReactNode;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  $full?: boolean;
 };
 
-const ButtonStyled = styled.button<ButtonProps>`
-  ${({ size }) => size && buttonSize[size]}
-  ${({ radius }) => radius && buttonRadius[radius]}
-  ${({ bgcolor }) => bgcolor && buttonBgColor[bgcolor]}
-  ${({ full }) => full && `width: 100%`}
+const ButtonStyled = styled.button<ButtonStyled>`
+  ${({ theme, size, radius, bgcolor, $full }) => css`
+    ${size && theme.buttonSize[size]}
+    ${radius && theme.buttonRadius[radius]}
+    ${bgcolor && theme.buttonBgColor[bgcolor]}
+    ${$full && 'width: 100%;'}
+  `}
 `;
-const ButtonInner = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+
+/**
+ * 1. 버튼 컴포넌트에서 받은 prop 이 styled prop 으로 이어지고 있으나 타입 체이닝이 끊겨있음.
+ * 2. 모든 타입(버튼 어트리뷰트, 스타일 프롭)이 ButtonProps 하나의 타입에 작성 되어 있어 집합 관계가 잘못되어있음.
+ * 3. full 이라는 boolean 타입을 str 으로 사용하고 있음. //
+ * 4. full 값이 false 일 때 css 에 false 값이 들어감 //
+ * 5. variant: primary, secondary, default
+ * 6. size: large, medium, small
+ *   - 5,6번은 styled provider 에서 값을 주입
+ */
+
 const Button = ({
   bgcolor = 'black',
   radius = 'pill',
   size = 'm',
-  full,
   children,
-  onClick,
+  ...otherProps
 }: ButtonProps) => {
   return (
-    <ButtonStyled
-      bgcolor={bgcolor}
-      radius={radius}
-      size={size}
-      full={full}
-      onClick={onClick}
-    >
-      <ButtonInner>{children}</ButtonInner>
+    <ButtonStyled bgcolor={bgcolor} radius={radius} size={size} {...otherProps}>
+      {children}
     </ButtonStyled>
   );
 };

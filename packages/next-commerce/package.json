@@ -12,11 +12,13 @@
     "workerDirectory": "public"
   },
   "dependencies": {
+    "axios": "^1.5.1",
     "babel-plugin-styled-components": "^2.1.4",
     "next": "13.5.4",
     "next-auth": "^4.24.3",
     "react": "^18",
     "react-dom": "^18",
+    "recoil": "^0.7.7",
     "styled-components": "^6.1.0",
     "styled-reset": "^4.5.1",
     "universal-cookie": "^6.1.1"

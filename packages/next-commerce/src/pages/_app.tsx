@@ -1,7 +1,10 @@
 import React from 'react';
 import GlobalStyles from '../styles/GlobalStyles';
 import type { AppProps } from 'next/app';
-import Layout from './layout';
+import Layout from '../components/Layout';
+import { ThemeProvider } from 'styled-components';
+import { theme } from '../styles/theme';
+import { RecoilRoot } from 'recoil';
 
 const _app = ({ Component, pageProps }: AppProps) => {
   if (process.env.NODE_ENV === 'development') {
@@ -17,11 +20,16 @@ const _app = ({ Component, pageProps }: AppProps) => {
       })();
     }
   }
+
   return (
-    <Layout>
+    <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <Component {...pageProps} />
-    </Layout>
+      <RecoilRoot>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </RecoilRoot>
+    </ThemeProvider>
   );
 };
 
