@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Typography from '../components/styles/Typography';
 import Button from '../components/styles/Button';
 
 const home = () => {
   return (
     <div>
-      <Typography tag={'h1'} typo={'heading1'} $type={'italic'}>
+      <Typography tag={'h1'} typo={'heading1'}>
         Typography
       </Typography>
-      <Typography tag={'h2'} typo={'heading2'} $type={'italic'}>
+      <Typography tag={'h2'} typo={'heading2'}>
         Typography
       </Typography>
       <Typography typo={'text_xxl'}>Typography</Typography>

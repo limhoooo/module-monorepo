@@ -4,9 +4,7 @@ const user = [{ id: 'test', password: '123123' }];
 
 export const handlers = [
   rest.post('/api/login', (req, res, ctx) => {
-    console.log(req);
     const { id, password } = req.body;
-    console.log(id, password);
     const idCheck = user.some(
       item => id === item.id && password === item.password,
     );

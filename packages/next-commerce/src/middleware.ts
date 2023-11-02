@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  //   if (request.nextUrl.pathname.startsWith('/login')) {
+  //   let cookie = request.cookies.get('a_name')?.value;
+  //   if (!cookie) {
+  //     return NextResponse.redirect(new URL('/login', request.url));
   //   }
-  let cookie = request.cookies.get('a_name')?.value;
-  if (!cookie) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
+  return null;
 }
 
 export const config = {

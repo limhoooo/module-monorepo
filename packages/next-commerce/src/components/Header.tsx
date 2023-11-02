@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import Typography from './styles/Typography';
 import { userApi } from '../service/api';
-import { useRecoilState } from 'recoil';
-import { isLoginAtom, userStateAtom } from '../stores/login';
+import { useAuth } from '../stores/authContext';
 
 const Wrapper = styled.header`
   width: 100%;
@@ -20,13 +19,11 @@ const Wrapper = styled.header`
 `;
 
 const Header = () => {
-  const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
-  const [userState, setUserState] = useRecoilState(userStateAtom);
+  const { isLogged, logoutFnc } = useAuth();
 
   const logOut = async () => {
     await userApi.logout();
-    setUserState({ name: '' });
-    setIsLogin(false);
+    logoutFnc();
   };
   return (
     <Wrapper>
@@ -36,7 +33,7 @@ const Header = () => {
       <Typography typo={'text_m'}>
         <Link href={'/admin'}>Admin</Link>
       </Typography>
-      {isLogin ? (
+      {isLogged ? (
         <Typography typo={'text_m'} onClick={logOut}>
           Logout
         </Typography>
