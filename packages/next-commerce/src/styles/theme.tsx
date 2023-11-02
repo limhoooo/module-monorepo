@@ -1,12 +1,3 @@
-/**
- * as is
- * 1. 타이포그라피 별로 css 코드가 하드코딩 되어 있음.
- * 2. 타이포그라피 컴포넌트에 비지니스와 관련 없는 css 코드량이 너무 많음
- *
- * to be
- * 1. 타이포그라피에 작성 된 css 를 글로벌테마 영역으로 옮긴다.
- */
-
 import { CSSProp, css } from 'styled-components';
 
 export type TypeFontSizeKey =
@@ -37,10 +28,27 @@ export type TypeFontLineHeight =
   | 'lh26'
   | 'lh22'
   | 'lh20';
-export type FontLetterSpacing = 'lsm3' | 'lsm2' | 'lsm1' | 'lsm04' | 'lsm06';
-export type TypeFontStyle = 'normal' | 'italic' | 'oblique' | 'revert';
+export type TypeFontLetterSpacing =
+  | 'lsm3'
+  | 'lsm2'
+  | 'lsm1'
+  | 'lsm04'
+  | 'lsm06';
+export type TypeButtonSize = 'xl' | 'l' | 'm' | 's' | 'xs';
+export type TypeButtonBgColor = 'black' | 'white' | 'none' | 'primary';
+export type TypeButtonRadius = 'pill' | 'rounded' | 'sharp';
 
-export const fontSize: Record<TypeFontSizeKey, CSSProp> = {
+export interface ThemeInterface {
+  fontSize: Record<TypeFontSizeKey, CSSProp>;
+  fontWeight: Record<TypeFontWeight, CSSProp>;
+  lineHeight: Record<TypeFontLineHeight, CSSProp>;
+  letterSpacing: Record<TypeFontLetterSpacing, CSSProp>;
+  buttonSize: Record<TypeButtonSize, CSSProp>;
+  buttonBgColor: Record<TypeButtonBgColor, CSSProp>;
+  buttonRadius: Record<TypeButtonRadius, CSSProp>;
+}
+
+const fontSize: ThemeInterface['fontSize'] = {
   heading1: css`
     font-size: 80px;
   `,
@@ -81,8 +89,7 @@ export const fontSize: Record<TypeFontSizeKey, CSSProp> = {
     font-size: 12px;
   `,
 };
-
-export const fontWeight: Record<TypeFontWeight, CSSProp> = {
+const fontWeight: ThemeInterface['fontWeight'] = {
   bold: css`
     font-weight: 700;
   `,
@@ -96,7 +103,7 @@ export const fontWeight: Record<TypeFontWeight, CSSProp> = {
     font-weight: 400;
   `,
 };
-export const lineHeight: Record<TypeFontLineHeight, CSSProp> = {
+const lineHeight: ThemeInterface['lineHeight'] = {
   lh84: css`
     line-height: 84px;
   `,
@@ -134,7 +141,7 @@ export const lineHeight: Record<TypeFontLineHeight, CSSProp> = {
     line-height: 20px;
   `,
 };
-export const letterSpacing: Record<FontLetterSpacing, CSSProp> = {
+const letterSpacing: ThemeInterface['letterSpacing'] = {
   lsm3: css`
     letter-spacing: -3px;
   `,
@@ -151,8 +158,7 @@ export const letterSpacing: Record<FontLetterSpacing, CSSProp> = {
     letter-spacing: -0.6px;
   `,
 };
-
-const buttonSize = {
+const buttonSize: ThemeInterface['buttonSize'] = {
   xl: css`
     padding: 19px 55px;
     ${fontSize.xxl};
@@ -174,7 +180,7 @@ const buttonSize = {
     ${fontSize.xs};
   `,
 };
-const buttonBgColor = {
+const buttonBgColor: ThemeInterface['buttonBgColor'] = {
   black: css`
     color: #fff;
     background-color: #121212;
@@ -196,7 +202,7 @@ const buttonBgColor = {
     border: 2px solid #007bff;
   `,
 };
-const buttonRadius = {
+const buttonRadius: ThemeInterface['buttonRadius'] = {
   pill: css`
     border-radius: 39px;
   `,
