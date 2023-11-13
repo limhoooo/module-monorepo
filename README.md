@@ -3,8 +3,13 @@ Monorepo를 활용하여 반복적으로 구성해야 했던 라이브러리 및
 프론트엔드 개발에 필요한 모듈 및 React를 Vanilla JS 로 개발 <br>
 최종적으로 직접만든 모듈을 이용하여 Toss 의 테크블로그를 클론코딩 개발<br>
 
-## 구성 프로젝트
 - cloneToss (https://github.com/limhoooo/module-monorepo/tree/master/packages/cloneToss)
+
+![ezgif com-video-to-gif (1)](https://github.com/limhoooo/module-monorepo/assets/24869943/6e199ac2-7ac5-4afc-93c2-b3660c28ffda)
+
+
+
+## 구성 프로젝트
 - cloneDeep (https://github.com/limhoooo/module-monorepo/tree/master/packages/cloneDeep)
 - fetch-h (https://github.com/limhoooo/module-monorepo/tree/master/packages/fetch-h)
 - router-h (https://github.com/limhoooo/module-monorepo/tree/master/packages/router-h)
