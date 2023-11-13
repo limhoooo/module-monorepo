@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import Button from '../components/styles/Button';
 import { useRouter } from 'next/router';
 import { userApi } from '../service/api';
-import { useRecoilState } from 'recoil';
-import { isLoginAtom, userStateAtom } from '../stores/login';
+import { useAuth } from '../stores/authContext';
 
 const Wrapper = styled.section`
   width: 100%;
@@ -47,19 +46,20 @@ const CheckBox = styled.div`
 
 const Login = () => {
   const router = useRouter();
-  const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
-  const [userState, setUserState] = useRecoilState(userStateAtom);
+  const { loginFnc } = useAuth();
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isCheck, setIsCheck] = useState<boolean>(false);
+  const { asPath } = router.query;
 
   const submit = async () => {
     const param = { id, password };
     const { data } = await userApi.login(param);
     if (data.status === 200) {
-      router.push('/home');
-      setUserState({ name: data.name });
-      setIsLogin(true);
+      const userName: string = data.name;
+      const redirectUrl = asPath ? asPath : '/home';
+      loginFnc(userName);
+      router.push(redirectUrl as string);
     } else {
       setIsCheck(true);
     }
@@ -68,7 +68,7 @@ const Login = () => {
     <Wrapper>
       <LoginInner>
         <LoginHeader>
-          <Typography typo={'heading4'}>Sign in</Typography>
+          <Typography typo={'heading4'}>Sign in </Typography>
           <Typography tag={'p'} typo={'text_s'} className="mt-2">
             Don't have an accout yet?{' '}
             <Typography tag={'span'} typo={'text_s'} weight={'bold'}>

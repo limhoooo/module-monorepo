@@ -4,9 +4,17 @@ import type { AppProps } from 'next/app';
 import Layout from '../components/Layout';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '../styles/theme';
-import { RecoilRoot } from 'recoil';
+import { NextPage } from 'next';
+import { AuthProvider } from '../stores/authContext';
 
-const _app = ({ Component, pageProps }: AppProps) => {
+type EnhancedAppProps = AppProps & {
+  Component: NextPage;
+  pageProps: Record<string, unknown>;
+};
+
+const _app = ({ Component, pageProps }: EnhancedAppProps) => {
+  const getLayout = Component.getLayout ?? (page => page);
+
   if (process.env.NODE_ENV === 'development') {
     if (typeof window === 'undefined') {
       (async () => {
@@ -24,11 +32,9 @@ const _app = ({ Component, pageProps }: AppProps) => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <RecoilRoot>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </RecoilRoot>
+      <AuthProvider>
+        <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
+      </AuthProvider>
     </ThemeProvider>
   );
 };
