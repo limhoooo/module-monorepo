@@ -14,7 +14,7 @@ import { useAuth } from '../stores/authContext';
  */
 const admin: NextPage = () => {
   const { user } = useAuth();
-  return <h1>admin wellcome {user.userName}</h1>;
+  return <h1>admin wellcome {user?.userName}</h1>;
 };
 
 admin.getLayout = function getLayout(page) {

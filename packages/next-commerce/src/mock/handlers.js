@@ -12,17 +12,20 @@ export const handlers = [
       return res(
         ctx.status(200),
         ctx.json({ message: 'ok', status: 200, name: id }),
-        ctx.cookie(`a_name=${id};Max-Age=360;`),
+        // ctx.cookie(`a_name=${id};Max-Age=360;`),
       );
     } else {
-      return res(ctx.status(200), ctx.json({ message: 'fali', status: 401 }));
+      return res(
+        ctx.status(200),
+        ctx.json({ message: 'fali', status: 401, name: id }),
+      );
     }
   }),
   rest.post('/api/logout', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({ message: 'ok', status: 200 }),
-      ctx.cookie(`a_name='';Max-Age=0;`),
+      // ctx.cookie(`a_name='';Max-Age=0;`),
     );
   }),
   rest.post('/api/isLogin', (req, res, ctx) => {}),

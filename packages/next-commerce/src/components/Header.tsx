@@ -19,11 +19,13 @@ const Wrapper = styled.header`
 `;
 
 const Header = () => {
-  const { isLogged, logoutFnc } = useAuth();
+  const { isLogged, logout } = useAuth();
 
   const logOut = async () => {
-    await userApi.logout();
-    logoutFnc();
+    const data = await logout();
+    if (data.status !== 200) {
+      alert('로그아웃 실패');
+    }
   };
   return (
     <Wrapper>

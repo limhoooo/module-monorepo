@@ -1,49 +1,104 @@
-import { createContext, useState, useContext, useEffect } from 'react';
+import { createContext, useReducer, useContext } from 'react';
 import Cookies from 'universal-cookie';
+import { LoginParam, TypeResponseData, userApi } from '../service/api';
 
-export interface AuthProviderProps {
-  user: { userName: string };
+export interface AuthContextState {
+  user: { userName: string } | null;
   isLogged: boolean;
-  loginFnc: (userName: string) => void;
-  logoutFnc: () => void;
 }
 
-// 이부분 질문
-type Props = AuthProviderProps;
+type AuthContextValue = {
+  login: (param: LoginParam) => Promise<TypeResponseData>;
+  logout: () => Promise<TypeResponseData>;
+  isLoggedIn: () => boolean;
+};
+type AuthContext = AuthContextState & AuthContextValue;
 
-const initContext = {
-  user: { userName: '' },
-  isLogged: false,
-  loginFnc: (userName: string) => {},
-  logoutFnc: () => {},
+enum ActionType {
+  login = 'LOGIN',
+  logout = 'LOGOUT',
+  isLoggedIn = 'ISLOGGEDIN',
+  register = 'register',
+}
+
+type LoginAction = {
+  type: ActionType.login;
+  payload: {
+    userName: string;
+  };
+};
+type LogoutAction = {
+  type: ActionType.logout;
+};
+type IsLoggedInAction = {
+  type: ActionType.isLoggedIn;
+  payload: {
+    isLogged: boolean;
+  };
+};
+type AuthAction = LoginAction | LogoutAction | IsLoggedInAction;
+
+const authReducer = (
+  state: AuthContextState,
+  action: AuthAction,
+): AuthContextState => {
+  switch (action.type) {
+    case ActionType.login:
+      return { user: { userName: action.payload.userName }, isLogged: true };
+    case ActionType.logout:
+      return { user: null, isLogged: false };
+    case ActionType.isLoggedIn:
+      return { ...state, isLogged: action.payload.isLogged };
+    default:
+      return state;
+  }
 };
 
-const AuthContext = createContext<Props>(initContext);
+const initContextState: AuthContextState = {
+  user: null,
+  isLogged: false,
+};
+const initContextValue: AuthContextValue = {
+  login: (param: LoginParam) =>
+    Promise.resolve({ status: 200, message: '', name: param.id }),
+  logout: () => Promise.resolve({ status: 200, message: '', name: '' }),
+  isLoggedIn: () => false,
+};
+const initContext = { ...initContextState, ...initContextValue };
+
+const AuthContext = createContext<AuthContext>(initContext);
 
 export function AuthProvider({ children }: React.PropsWithChildren) {
-  const [user, setUser] = useState(initContext.user);
-  const [isLogged, setIsLogged] = useState(false);
+  const [authState, dispatch] = useReducer(authReducer, initContext);
+  const cookies = new Cookies();
 
-  const loginFnc = (userName: string) => {
-    setUser({ userName });
-    setIsLogged(true);
+  const login = async (param: LoginParam) => {
+    const { data } = await userApi.login(param);
+    if (data.status === 200) {
+      dispatch({ type: ActionType.login, payload: { userName: data.name } });
+      cookies.set('a_name', data.name, { maxAge: 360 });
+    }
+    return data;
   };
 
-  const logoutFnc = () => {
-    setUser(initContext.user);
-    setIsLogged(false);
+  const logout = async () => {
+    const { data } = await userApi.logout();
+    if (data.status === 200) {
+      dispatch({ type: ActionType.logout });
+      cookies.remove('a_name');
+    }
+    return data;
   };
-  const checkLogged = () => {
-    const cookies = new Cookies();
+
+  const isLoggedIn = () => {
     const cookieValue = cookies.get('a_name');
-    cookieValue && loginFnc(cookieValue);
+    if (cookieValue)
+      dispatch({ type: ActionType.login, payload: { userName: cookieValue } });
+    return cookieValue ? true : false;
   };
-  useEffect(() => {
-    checkLogged();
-  }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isLogged, loginFnc, logoutFnc }}>
+    <AuthContext.Provider value={{ ...authState, login, logout, isLoggedIn }}>
       {children}
     </AuthContext.Provider>
   );

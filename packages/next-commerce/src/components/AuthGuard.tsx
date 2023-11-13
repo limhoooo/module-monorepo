@@ -3,11 +3,12 @@ import { useAuth } from '../stores/authContext';
 import { useRouter } from 'next/router';
 
 function AuthGuard({ children }: React.PropsWithChildren) {
-  const { isLogged } = useAuth();
+  if (typeof window === 'undefined') return <>{children}</>;
+  const { isLogged, isLoggedIn } = useAuth();
   const router = useRouter();
-
   useEffect(() => {
-    if (!isLogged) {
+    const isLogin = isLoggedIn();
+    if (!isLogin) {
       router.push({
         pathname: '/login',
         query: { asPath: router.asPath },
