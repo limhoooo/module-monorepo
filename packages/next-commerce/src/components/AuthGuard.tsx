@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
-import { useAuth } from '../stores/authContext';
+import { useAuth } from '../stores/AuthContext';
 import { useRouter } from 'next/router';
 
 function AuthGuard({ children }: React.PropsWithChildren) {
-  if (typeof window === 'undefined') return <>{children}</>;
-  const { isLogged, isLoggedIn } = useAuth();
   const router = useRouter();
+  if (!router.isReady) return <>{children}</>;
+
+  const { isLogged, isLoggedIn } = useAuth();
   useEffect(() => {
     const isLogin = isLoggedIn();
     if (!isLogin) {

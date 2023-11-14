@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import Typography from './styles/Typography';
 import { userApi } from '../service/api';
-import { useAuth } from '../stores/authContext';
+import { useAuth } from '../stores/AuthContext';
 
 const Wrapper = styled.header`
   width: 100%;

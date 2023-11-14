@@ -2,7 +2,7 @@ import React from 'react';
 // import { authMiddleware } from '../service/authMiddleware';
 import { NextPage } from 'next';
 import AuthGuard from '../components/AuthGuard';
-import { useAuth } from '../stores/authContext';
+import { useAuth } from '../stores/AuthContext';
 
 // export const getServerSideProps = (context: GetServerSidePropsContext) => {
 //   return authMiddleware(context);

@@ -11,6 +11,7 @@ type AuthContextValue = {
   login: (param: LoginParam) => Promise<TypeResponseData>;
   logout: () => Promise<TypeResponseData>;
   isLoggedIn: () => boolean;
+  initialized: () => void;
 };
 type AuthContext = AuthContextState & AuthContextValue;
 
@@ -18,7 +19,8 @@ enum ActionType {
   login = 'LOGIN',
   logout = 'LOGOUT',
   isLoggedIn = 'ISLOGGEDIN',
-  register = 'register',
+  initialized = 'INITIALZED',
+  register = 'REGISTER',
 }
 
 type LoginAction = {
@@ -36,7 +38,11 @@ type IsLoggedInAction = {
     isLogged: boolean;
   };
 };
-type AuthAction = LoginAction | LogoutAction | IsLoggedInAction;
+type initialized = {
+  type: ActionType.initialized;
+};
+
+type AuthAction = LoginAction | LogoutAction | IsLoggedInAction | initialized;
 
 const authReducer = (
   state: AuthContextState,
@@ -49,6 +55,8 @@ const authReducer = (
       return { user: null, isLogged: false };
     case ActionType.isLoggedIn:
       return { ...state, isLogged: action.payload.isLogged };
+    case ActionType.initialized:
+      return { ...initContext };
     default:
       return state;
   }
@@ -62,6 +70,7 @@ const initContextValue: AuthContextValue = {
   login: (param: LoginParam) =>
     Promise.resolve({ status: 200, message: '', name: param.id }),
   logout: () => Promise.resolve({ status: 200, message: '', name: '' }),
+  initialized: () => {},
   isLoggedIn: () => false,
 };
 const initContext = { ...initContextState, ...initContextValue };
@@ -85,6 +94,7 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
     const { data } = await userApi.logout();
     if (data.status === 200) {
       dispatch({ type: ActionType.logout });
+      dispatch({ type: ActionType.initialized });
       cookies.remove('a_name');
     }
     return data;
@@ -94,11 +104,17 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
     const cookieValue = cookies.get('a_name');
     if (cookieValue)
       dispatch({ type: ActionType.login, payload: { userName: cookieValue } });
-    return cookieValue ? true : false;
+    return Boolean(cookieValue);
+  };
+
+  const initialized = () => {
+    dispatch({ type: ActionType.initialized });
   };
 
   return (
-    <AuthContext.Provider value={{ ...authState, login, logout, isLoggedIn }}>
+    <AuthContext.Provider
+      value={{ ...authState, login, logout, isLoggedIn, initialized }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -5,13 +5,14 @@ import Layout from '../components/Layout';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '../styles/theme';
 import { NextPage } from 'next';
-import { AuthProvider } from '../stores/authContext';
+import { AuthProvider } from '../stores/AuthContext';
 
 type EnhancedAppProps = AppProps & {
   Component: NextPage;
   pageProps: Record<string, unknown>;
 };
 
+// initialized 상태
 const _app = ({ Component, pageProps }: EnhancedAppProps) => {
   const getLayout = Component.getLayout ?? (page => page);
 

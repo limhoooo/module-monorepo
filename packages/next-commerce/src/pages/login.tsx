@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Button from '../components/styles/Button';
 import { useRouter } from 'next/router';
 import { userApi } from '../service/api';
-import { useAuth } from '../stores/authContext';
+import { useAuth } from '../stores/AuthContext';
 
 const Wrapper = styled.section`
   width: 100%;
