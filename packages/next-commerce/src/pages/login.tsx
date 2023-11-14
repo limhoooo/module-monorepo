@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Button from '../components/styles/Button';
 import { useRouter } from 'next/router';
 import { userApi } from '../service/api';
-import { useAuth } from '../stores/authContext';
+import { useAuth } from '../stores/AuthContext';
 
 const Wrapper = styled.section`
   width: 100%;
@@ -46,7 +46,7 @@ const CheckBox = styled.div`
 
 const Login = () => {
   const router = useRouter();
-  const { loginFnc } = useAuth();
+  const { login } = useAuth();
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isCheck, setIsCheck] = useState<boolean>(false);
@@ -54,11 +54,9 @@ const Login = () => {
 
   const submit = async () => {
     const param = { id, password };
-    const { data } = await userApi.login(param);
-    if (data.status === 200) {
-      const userName: string = data.name;
+    const { status } = await login(param);
+    if (status === 200) {
       const redirectUrl = asPath ? asPath : '/home';
-      loginFnc(userName);
       router.push(redirectUrl as string);
     } else {
       setIsCheck(true);

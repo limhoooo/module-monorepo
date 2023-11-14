@@ -2,7 +2,7 @@ import React from 'react';
 // import { authMiddleware } from '../service/authMiddleware';
 import { NextPage } from 'next';
 import AuthGuard from '../components/AuthGuard';
-import { useAuth } from '../stores/authContext';
+import { useAuth } from '../stores/AuthContext';
 
 // export const getServerSideProps = (context: GetServerSidePropsContext) => {
 //   return authMiddleware(context);
@@ -14,7 +14,7 @@ import { useAuth } from '../stores/authContext';
  */
 const admin: NextPage = () => {
   const { user } = useAuth();
-  return <h1>admin wellcome {user.userName}</h1>;
+  return <h1>admin wellcome {user?.userName}</h1>;
 };
 
 admin.getLayout = function getLayout(page) {
