@@ -45,6 +45,7 @@ const GlobalStyles = createGlobalStyle`
         line-height: 1;
         font-family: 'Noto Sans KR', sans-serif;
         margin-bottom: 100px;
+        padding: 50px 12px 12px 12px;
     }
     ol, ul{
         list-style: none;
