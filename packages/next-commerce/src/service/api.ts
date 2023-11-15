@@ -1,23 +1,25 @@
-import axios from 'axios';
-
+import Fetch, { FetchResponse } from '../utils/HttpClient';
 export type LoginParam = {
   id: string;
   password: string;
 };
-export type TypeResponseData = {
-  status: number;
+export type TypeResponse = {
   message: string;
   name: string;
+  statusCode: number;
 };
-type TypeResponse = { status: number; data: TypeResponseData };
 type UserApi = {
-  login: (param: LoginParam) => Promise<TypeResponse>;
-  logout: () => Promise<TypeResponse>;
+  login: (param: LoginParam) => Promise<FetchResponse<TypeResponse>>;
+  logout: () => Promise<FetchResponse<TypeResponse>>;
 };
-const baseURL = '';
-const instance = axios.create({ baseURL });
+const commerceApi = new Fetch();
+commerceApi.setHeaders({
+  'Content-Type': 'application/json; charset=utf-8',
+});
+commerceApi.setBaseUrl('');
 
 export const userApi: UserApi = {
-  login: (param: LoginParam) => instance.post('/api/login', param),
-  logout: () => instance.post('/api/logout'),
+  login: (payload: LoginParam) =>
+    commerceApi.post({ url: '/api/login', payload }),
+  logout: () => commerceApi.post({ url: '/api/logout' }),
 };

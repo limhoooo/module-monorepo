@@ -54,8 +54,8 @@ const Login = () => {
 
   const submit = async () => {
     const param = { id, password };
-    const { status } = await login(param);
-    if (status === 200) {
+    const { statusCode } = await login(param);
+    if (statusCode === 200) {
       const redirectUrl = asPath ? asPath : '/home';
       router.push(redirectUrl as string);
     } else {
