@@ -1,5 +1,5 @@
 import React from 'react';
-import ProductCard from '../productCard';
+import ProductCard from '../ProductCard';
 import * as S from './styles';
 import Typography from '../styles/Typography';
 import MultiCarousel from '../MultiCarousel';
@@ -20,9 +20,7 @@ export default function Arrivals({ newProducts }: Props) {
       <MultiCarousel arrows={false} partialVisbile={true}>
         {newProducts.map(item => (
           <ProductCard
-            path={item.imagePath}
-            title={item.title}
-            alt={item.alt}
+            product={item}
             $width="280px"
             $height="330px"
             isButton

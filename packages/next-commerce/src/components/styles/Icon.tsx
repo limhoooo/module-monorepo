@@ -20,7 +20,9 @@ type TypeIcons =
   | 'user'
   | 'menu'
   | 'search'
-  | 'close';
+  | 'close'
+  | 'star_on'
+  | 'star_off';
 type TypeIconsSize = 'xl' | 'l' | 'm' | 's' | 'xs';
 type TypeIconProps = {
   icon: TypeIcons;

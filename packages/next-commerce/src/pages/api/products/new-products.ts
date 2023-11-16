@@ -4,9 +4,13 @@ import path from 'path';
 type Product = {
   id: string;
   title: string;
+  price: string;
+  grade: number;
   imagePath: string;
   alt: string;
   new: boolean;
+  best: boolean;
+  sale: boolean;
 };
 function readJsonData() {
   const filePath = path.resolve('data/products.json');
