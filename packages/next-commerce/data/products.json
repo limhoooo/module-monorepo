@@ -1,0 +1,44 @@
+[
+  {
+    "id": "1",
+    "title": "Aero Dive",
+    "imagePath": "product_1",
+    "alt": "product_1 image",
+    "new": true
+  },
+  {
+    "id": "2",
+    "title": "AirKan ll",
+    "imagePath": "product_2",
+    "alt": "product_2 image",
+    "new": true
+  },
+  {
+    "id": "3",
+    "title": "Halo",
+    "imagePath": "product_3",
+    "alt": "product_3 image",
+    "new": true
+  },
+  {
+    "id": "4",
+    "title": "Nike",
+    "imagePath": "product_4",
+    "alt": "product_5 image",
+    "new": true
+  },
+  {
+    "id": "5",
+    "title": "Aero Dive2",
+    "imagePath": "product_5",
+    "alt": "product_5 image",
+    "new": false
+  },
+  {
+    "id": "6",
+    "title": "Nike Dive",
+    "imagePath": "product_6",
+    "alt": "product_6 image",
+    "new": true
+  }
+]
