@@ -27,14 +27,14 @@ type TypeIconProps = {
   size: TypeIconsSize;
   color?: 'white' | 'black';
 } & React.ComponentProps<'img'>;
-const StyledIcon = styled.img.attrs<TypeIconProps>(({ icon }) => ({
-  src: `/images/icons/${icon}.png`,
-}))`
-  width: ${({ size }) => iconSize[size]};
-  height: ${({ size }) => iconSize[size]};
-  display: inline-block;
-  filter: ${({ color }) => color === 'white' && `invert(1)`};
-`;
+// const StyledIcon = styled.img.attrs<TypeIconProps>(({ icon }) => ({
+//   src: `/images/icons/${icon}.png`,
+// }))`
+//   width: ${({ size }) => iconSize[size]};
+//   height: ${({ size }) => iconSize[size]};
+//   display: inline-block;
+//   filter: ${({ color }) => color === 'white' && `invert(1)`};
+// `;
 const Icon = ({ icon, size = 'm', color, ...otherProps }: TypeIconProps) => {
   return (
     <Image

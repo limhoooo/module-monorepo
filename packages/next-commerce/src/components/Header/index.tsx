@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import * as S from './styles';
 import Link from 'next/link';
-import Typography from '../styles/Typography';
 import Icon from '../styles/Icon';
 import Image from 'next/image';
 import MenuBar from '../MenuBar';
@@ -12,7 +11,7 @@ const Header = () => {
     setIsMenu(state => !state);
   };
   return (
-    <S.Wrapper isMenu={isMenu}>
+    <S.Wrapper $isMenu={isMenu}>
       <S.Header>
         <Link href={'/'}>
           <Image

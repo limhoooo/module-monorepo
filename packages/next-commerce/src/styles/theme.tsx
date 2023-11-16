@@ -189,7 +189,7 @@ const buttonBgColor: ThemeInterface['buttonBgColor'] = {
   white: css`
     color: #121212;
     background-color: #fff;
-    border: 2px solid #121212;
+    border: 2px solid #fff;
   `,
   none: css`
     color: #121212;

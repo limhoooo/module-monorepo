@@ -3,7 +3,7 @@ import Typography from '../components/styles/Typography';
 import styled from 'styled-components';
 import Button from '../components/styles/Button';
 import { useRouter } from 'next/router';
-import { userApi } from '../service/api';
+import { userApi } from '../service/userApi';
 import { useAuth } from '../stores/AuthContext';
 
 const Wrapper = styled.section`
