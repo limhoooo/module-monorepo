@@ -3,6 +3,7 @@ import Banner from '../components/Banner';
 import Arrivals from '../components/Arrivals';
 import { TypeBanners, TypeProducts, productApi } from '../service/productApi';
 import Products from '../components/Products';
+import EventSection from '../components/EventSection';
 
 type Props = {
   banners: TypeBanners[];
@@ -15,6 +16,7 @@ export default function index({ banners, newProducts, allProducts }: Props) {
     <section>
       <Banner banners={banners} />
       <Arrivals newProducts={newProducts} />
+      <EventSection />
       <Products allProducts={allProducts} />
     </section>
   );
