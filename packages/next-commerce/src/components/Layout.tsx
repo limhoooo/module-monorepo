@@ -1,20 +1,14 @@
 import React, { useEffect } from 'react';
 import Header from './Header';
 import styled from 'styled-components';
-
-const Main = styled.main`
-  /* width: 100%;
-  height: calc(100% - 68px);
-  display: flex;
-  justify-content: center;
-  align-items: center; */
-`;
+import { Space_Grotesk } from 'next/font/google';
+const inter = Space_Grotesk({ subsets: ['latin'] });
 
 export default function Layout({ children }: React.PropsWithChildren) {
   return (
     <>
       <Header />
-      <Main>{children}</Main>
+      <main className={inter.className}>{children}</main>
     </>
   );
 }
