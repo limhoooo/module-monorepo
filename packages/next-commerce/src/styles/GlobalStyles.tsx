@@ -24,10 +24,6 @@ export const boxModel = () => {
 
 const GlobalStyles = createGlobalStyle`
     ${reset}
-    html,body,#__next{
-        width: 100%;
-        height: 100%;
-    }
     a{
         text-decoration: none;
         color: inherit;
@@ -44,7 +40,6 @@ const GlobalStyles = createGlobalStyle`
     body{
         line-height: 1;
         font-family: 'Noto Sans KR', sans-serif;
-        margin-bottom: 100px;
         padding: 50px 12px 12px 12px;
     }
     ol, ul{

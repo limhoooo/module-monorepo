@@ -10,12 +10,13 @@ type Props = {
 export default function TabMenu({ tabMenu, activeTab }: Props) {
   const [active, setActive] = useState<string>();
   const clickTab = (item: string) => {
-    window.location.hash = `${item}`;
+    window.location.hash = item;
     setActive(item);
   };
 
   useEffect(() => {
-    setActive(activeTab);
+    const check = tabMenu.find(item => item === activeTab);
+    setActive(check ? activeTab : tabMenu[0]);
   }, [activeTab]);
 
   return (

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   margin-top: 20px;
   background-color: #eee;
+  padding: 20px;
 `;
 export const Div = styled.div`
   display: flex;
