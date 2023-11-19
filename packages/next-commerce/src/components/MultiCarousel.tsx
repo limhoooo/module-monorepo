@@ -2,12 +2,12 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 const responsive = {
   mobile: {
-    breakpoint: { max: 464, min: 0 },
+    breakpoint: { max: 1400, min: 0 },
     items: 1,
     paritialVisibilityGutter: 60,
   },
 };
-import React from 'react';
+import React, { useState } from 'react';
 
 type Props = {
   children: React.ReactNode;
@@ -23,17 +23,26 @@ export default function MultiCarousel({
   arrows,
   partialVisbile,
 }: Props) {
+  const documentScroll = (value: string) => {
+    document.body.style.overflow = value;
+  };
   return (
-    <Carousel
-      infinite={infinite}
-      autoPlay={autoPlay}
-      partialVisbile={partialVisbile}
-      arrows={arrows}
-      ssr={true}
-      responsive={responsive}
-      itemClass="m-2"
+    <div
+      onTouchStart={() => documentScroll('hidden')}
+      onTouchEnd={() => documentScroll('auto')}
     >
-      {children}
-    </Carousel>
+      <Carousel
+        infinite={infinite}
+        autoPlay={autoPlay}
+        partialVisbile={partialVisbile}
+        arrows={arrows}
+        draggable={false}
+        ssr={true}
+        responsive={responsive}
+        itemClass="m-2"
+      >
+        {children}
+      </Carousel>
+    </div>
   );
 }
