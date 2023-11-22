@@ -31,5 +31,14 @@ export const handlers = [
       // ctx.cookie(`a_name='';Max-Age=0;`),
     );
   }),
-  rest.post('/api/isLogin', (req, res, ctx) => {}),
+  rest.get('/api/product-banner', async (req, res, ctx) => {
+    const filePath = path.join(process.cwd(), 'data', 'banner.json');
+    const data = await fs.readFile(filePath, 'utf-8').then(JSON.parse);
+    console.log(data);
+    return res(
+      ctx.status(200),
+      ctx.json({ message: 'ok', status: 200 }),
+      // ctx.cookie(`a_name='';Max-Age=0;`),
+    );
+  }),
 ];

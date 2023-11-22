@@ -1,6 +1,6 @@
 import { createContext, useReducer, useContext } from 'react';
 import Cookies from 'universal-cookie';
-import { LoginParam, TypeResponse, userApi } from '../service/api';
+import { LoginParam, TypeResponse, userApi } from '../service/userApi';
 
 export interface AuthContextState {
   user: { userName: string } | null;
