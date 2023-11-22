@@ -16,19 +16,35 @@ export type TypeProducts = {
   best: boolean;
   sale: boolean;
 };
-type ProductApi = {
-  getBanners: () => Promise<FetchResponse<TypeBanners>>;
-  getAllProducts: () => Promise<FetchResponse<TypeProducts>>;
-  getNewProducts: () => Promise<FetchResponse<TypeProducts>>;
+type ProductApiParams = {
+  cancelKey?: string;
 };
-const commerceApi = new Fetch();
+type ProductApi = {
+  getBanners: (params: ProductApiParams) => Promise<FetchResponse<TypeBanners>>;
+  getAllProducts: (
+    params: ProductApiParams,
+  ) => Promise<FetchResponse<TypeProducts>>;
+  getNewProducts: (
+    params: ProductApiParams,
+  ) => Promise<FetchResponse<TypeProducts>>;
+  cancalBanners: (params: ProductApiParams) => any;
+};
+export const commerceApi = new Fetch();
 commerceApi.setHeaders({
   'Content-Type': 'application/json; charset=utf-8',
 });
+
 commerceApi.setBaseUrl('http://localhost:3000/');
 
 export const productApi: ProductApi = {
-  getBanners: () => commerceApi.get({ url: '/api/banners' }),
-  getAllProducts: () => commerceApi.get({ url: '/api/products' }),
-  getNewProducts: () => commerceApi.get({ url: '/api/products/new-products' }),
+  getBanners: params =>
+    commerceApi.get({ url: 'api/banners', cancelKey: params?.cancelKey }),
+  cancalBanners: params => commerceApi.cancelApi(params?.cancelKey),
+  getAllProducts: params =>
+    commerceApi.get({ url: 'api/products', cancelKey: params?.cancelKey }),
+  getNewProducts: params =>
+    commerceApi.get({
+      url: 'api/products/new-products',
+      cancelKey: params?.cancelKey,
+    }),
 };
