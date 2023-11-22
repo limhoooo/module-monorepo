@@ -1,0 +1,68 @@
+[
+  {
+    "id": "1",
+    "title": "Aero Dive",
+    "imagePath": "product_1",
+    "alt": "product_1 image",
+    "price": "120.00",
+    "new": true,
+    "best": false,
+    "sale": true,
+    "grade": 2
+  },
+  {
+    "id": "2",
+    "title": "AirKan ll",
+    "imagePath": "product_2",
+    "alt": "product_2 image",
+    "price": "26.00",
+    "new": true,
+    "best": false,
+    "sale": false,
+    "grade": 4
+  },
+  {
+    "id": "3",
+    "title": "Halo",
+    "imagePath": "product_3",
+    "alt": "product_3 image",
+    "price": "56.00",
+    "new": true,
+    "best": true,
+    "sale": true,
+    "grade": 5
+  },
+  {
+    "id": "4",
+    "title": "Nike",
+    "imagePath": "product_4",
+    "alt": "product_5 image",
+    "price": "1256.00",
+    "new": true,
+    "best": false,
+    "sale": false,
+    "grade": 4
+  },
+  {
+    "id": "5",
+    "title": "Aero Dive2",
+    "imagePath": "product_5",
+    "alt": "product_5 image",
+    "price": "22.00",
+    "new": false,
+    "best": false,
+    "sale": true,
+    "grade": 3
+  },
+  {
+    "id": "6",
+    "title": "Nike Dive",
+    "imagePath": "product_6",
+    "alt": "product_6 image",
+    "price": "106.00",
+    "new": true,
+    "best": true,
+    "sale": false,
+    "grade": 5
+  }
+]

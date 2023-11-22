@@ -1,6 +1,6 @@
 import { createContext, useReducer, useContext } from 'react';
 import Cookies from 'universal-cookie';
-import { LoginParam, TypeResponseData, userApi } from '../service/api';
+import { LoginParam, TypeResponse, userApi } from '../service/userApi';
 
 export interface AuthContextState {
   user: { userName: string } | null;
@@ -8,8 +8,8 @@ export interface AuthContextState {
 }
 
 type AuthContextValue = {
-  login: (param: LoginParam) => Promise<TypeResponseData>;
-  logout: () => Promise<TypeResponseData>;
+  login: (param: LoginParam) => Promise<TypeResponse>;
+  logout: () => Promise<TypeResponse>;
   isLoggedIn: () => boolean;
   initialized: () => void;
 };
@@ -68,8 +68,8 @@ const initContextState: AuthContextState = {
 };
 const initContextValue: AuthContextValue = {
   login: (param: LoginParam) =>
-    Promise.resolve({ status: 200, message: '', name: param.id }),
-  logout: () => Promise.resolve({ status: 200, message: '', name: '' }),
+    Promise.resolve({ statusCode: 200, message: '', name: param.id }),
+  logout: () => Promise.resolve({ statusCode: 200, message: '', name: '' }),
   initialized: () => {},
   isLoggedIn: () => false,
 };
@@ -82,22 +82,26 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
   const cookies = new Cookies();
 
   const login = async (param: LoginParam) => {
-    const { data } = await userApi.login(param);
-    if (data.status === 200) {
-      dispatch({ type: ActionType.login, payload: { userName: data.name } });
-      cookies.set('a_name', data.name, { maxAge: 360 });
+    const { response } = await userApi.login(param);
+
+    if (response?.statusCode === 200) {
+      dispatch({
+        type: ActionType.login,
+        payload: { userName: response.name },
+      });
+      cookies.set('a_name', response.name, { maxAge: 360 });
     }
-    return data;
+    return response;
   };
 
   const logout = async () => {
-    const { data } = await userApi.logout();
-    if (data.status === 200) {
+    const { response } = await userApi.logout();
+    if (response?.statusCode === 200) {
       dispatch({ type: ActionType.logout });
       dispatch({ type: ActionType.initialized });
       cookies.remove('a_name');
     }
-    return data;
+    return response;
   };
 
   const isLoggedIn = () => {

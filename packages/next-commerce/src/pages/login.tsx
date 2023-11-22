@@ -3,7 +3,7 @@ import Typography from '../components/styles/Typography';
 import styled from 'styled-components';
 import Button from '../components/styles/Button';
 import { useRouter } from 'next/router';
-import { userApi } from '../service/api';
+import { userApi } from '../service/userApi';
 import { useAuth } from '../stores/AuthContext';
 
 const Wrapper = styled.section`
@@ -54,8 +54,8 @@ const Login = () => {
 
   const submit = async () => {
     const param = { id, password };
-    const { status } = await login(param);
-    if (status === 200) {
+    const { statusCode } = await login(param);
+    if (statusCode === 200) {
       const redirectUrl = asPath ? asPath : '/home';
       router.push(redirectUrl as string);
     } else {
