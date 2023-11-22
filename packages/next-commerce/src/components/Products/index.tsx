@@ -3,6 +3,7 @@ import * as S from './styles';
 import TabMenu from '../TabMenu';
 import { TypeProducts } from '@/src/service/productApi';
 import ProductCard from '../ProductCard';
+import useChangeHash from '@/src/hooks/useChangeHash';
 
 type Props = {
   allProducts: TypeProducts[];
@@ -14,26 +15,25 @@ export default function Products({ allProducts }: Props) {
   const [activeTab, setActiveTab] = useState<string>(tabMenu[0]);
   const handleHashChange = () => {
     if (typeof window === 'undefined') return;
-    const hash = decodeURI(window.location.hash.substr(1));
-    setActiveTab(hash || tabMenu[0]);
+    const decodedHash = decodeURI(window.location.hash.substr(1));
+    setActiveTab(decodedHash || tabMenu[0]);
   };
   const productsList = allProducts.filter(item => {
-    return activeTab === 'Best Sellers'
-      ? item.best
-      : activeTab === 'New Arrivals'
-      ? item.new
-      : activeTab === 'Sale'
-      ? item.sale
-      : item;
+    if (activeTab === 'Best Sellers') {
+      return item.best;
+    } else if (activeTab === 'New Arrivals') {
+      return item.new;
+    } else if (activeTab === 'Sale') {
+      return item.sale;
+    } else {
+      return item;
+    }
   });
+  useChangeHash(handleHashChange, activeTab);
 
   useEffect(() => {
     handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-    };
-  }, []);
+  }, [activeTab]);
   return (
     <S.Wrapper>
       <S.TitleBox>

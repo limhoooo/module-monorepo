@@ -17,7 +17,7 @@ export default function Arrivals({ newProducts }: Props) {
           New Arrivals
         </Typography>
       </S.TitleBox>
-      <MultiCarousel arrows={false} partialVisbile={true}>
+      <MultiCarousel partialVisbile>
         {newProducts.map(item => (
           <ProductCard
             product={item}

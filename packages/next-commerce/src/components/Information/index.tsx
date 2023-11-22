@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Typography from '../styles/Typography';
 import BottomSheet from '../BottomSheet';
 import InfoMationCard from './InfoMationCard';
+import useChangeHash from '@/src/hooks/useChangeHash';
 
 const infoMenuList = ['Shop', 'Information', 'Company'];
 const infoMationSection = [
@@ -39,12 +40,7 @@ export default function Information() {
   const checkHash = () => {
     if (window.location.hash !== '#bottomsheet') changeIsBottomSheet(false);
   };
-  useEffect(() => {
-    window.addEventListener('hashchange', checkHash);
-    return () => {
-      window.removeEventListener('hashchange', checkHash);
-    };
-  }, []);
+  useChangeHash(checkHash, []);
   return (
     <S.Wrapper>
       <Image

@@ -20,7 +20,7 @@ export default function TabMenu({ tabMenu, activeTab }: Props) {
   }, [activeTab]);
 
   return (
-    <S.Wrapper>
+    <S.Wrapper role="tablist">
       {tabMenu.map(item => (
         <S.TabMenuBox
           key={item}

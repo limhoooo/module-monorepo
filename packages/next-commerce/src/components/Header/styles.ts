@@ -23,9 +23,9 @@ export const Header = styled.div`
   position: relative;
 `;
 
-export const Nav = styled.nav`
+export const Nav = styled.ul`
   display: flex;
 `;
-export const NavList = styled.span`
+export const NavList = styled.li`
   border-radius: 50px;
 `;

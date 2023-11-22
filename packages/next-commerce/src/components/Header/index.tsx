@@ -1,15 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './styles';
 import Link from 'next/link';
 import Icon from '../styles/Icon';
 import Image from 'next/image';
 import MenuBar from '../MenuBar';
+import useChangeRouter from '@/src/hooks/useChangeRouter';
 
 const Header = () => {
   const [isMenu, setIsMenu] = useState(false);
   const changeMenu = () => {
     setIsMenu(state => !state);
   };
+  const handleOnLoad = () => {
+    setIsMenu(false);
+  };
+
+  useChangeRouter(handleOnLoad);
+
+  const openMenu = () => setIsMenu(true);
+  const closeMenu = () => setIsMenu(false);
   return (
     <S.Wrapper $isMenu={isMenu}>
       <S.Header>
