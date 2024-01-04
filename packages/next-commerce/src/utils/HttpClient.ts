@@ -1,87 +1,70 @@
 type HttpHeaders = 'Content-Type' | 'Authorization' | 'Accept' | 'Cookie';
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 type HttpHeadersMap = {
   [Key in HttpHeaders]?: string;
 };
-export type FetchResponse<T> = PartialPick<FetchState, 'status'> & {
-  response: T;
-};
-
-export type RequestOptions = PartialPick<FetchState, 'url'>;
-type PromiseFetchResponse = Promise<FetchResponse<object>>;
-
-interface FetchState {
-  baseUrl: string;
-  headers: HttpHeadersMap | {};
-  timeout: number;
+type RequestOptions = RequestInit & {
   url: string;
-  method: HttpMethod;
-  params: object;
-  payload: object;
-  status: 'success' | 'fail';
-  statusCode: number;
-  errorName: string;
-  errorMsg: Error;
-}
-
-interface FetchMethod {
-  httpRequest: (options: RequestOptions) => PromiseFetchResponse;
-  handleResponse: (
-    response: FetchResponse<object | null>,
-  ) => FetchResponse<object | null>;
-  handleRequestError: (error: Error) => FetchResponse<null>;
-  setBaseUrl: (baseUrl: string) => void;
-  setHeaders: (headers: FetchInstance['headers']) => void;
-  setRequestTimeout: () => AbortSignal;
-  setTimeout: (timeout: number) => void;
-  get: (options: RequestOptions) => PromiseFetchResponse;
-  post: (options: RequestOptions) => PromiseFetchResponse;
-  put: (options: RequestOptions) => PromiseFetchResponse;
-  patch: (options: RequestOptions) => PromiseFetchResponse;
-  delete: (options: RequestOptions) => PromiseFetchResponse;
-}
-
-export type FetchInstance = Pick<
-  FetchState,
-  'baseUrl' | 'headers' | 'timeout'
-> &
-  FetchMethod;
-
-export default class Fetch implements FetchInstance {
-  baseUrl: string;
-  headers: FetchInstance['headers'];
-  timeout: number;
+  params?: object;
+  cancelKey?: string;
+};
+export type FetchResponse<T> = {
+  status?: 'success' | 'fail';
+  statusCode?: number;
+  response?: T;
+  errorName?: string;
+  errorMsg?: Error;
+};
+type FetchApis = {
+  cancelKey: string;
+  abortController: AbortController;
+};
+export default class Fetch {
+  baseUrl: string | '';
+  private headers: HttpHeaders | {};
+  private fetchApis: FetchApis[];
 
   constructor() {
     this.baseUrl = '';
     this.headers = {};
-    this.timeout = 5000;
+    this.fetchApis = [];
   }
 
-  async httpRequest({
+  private async httpRequest<T>({
     method,
     url,
-    payload,
     headers,
-  }: RequestOptions): Promise<FetchResponse<any>> {
+    body,
+    cancelKey,
+  }: RequestOptions): Promise<FetchResponse<T>> {
     try {
-      const signal = this.setRequestTimeout();
+      const controller = new AbortController();
+      // cancelKey 가 있을시
+      // this.fetchApis 에 {cancelKey , AbortController} 를 배열에 담아둠
+      // fetch 요청중 cancelApi() || allCancelApi() 호출시
+      // cancelKey 에 맞는 요청을 abort() 시킴
+      if (cancelKey) {
+        this.fetchApis = [
+          ...this.fetchApis,
+          { cancelKey, abortController: controller },
+        ];
+      }
       const options: RequestInit = {
         method,
         headers: headers ? headers : this.headers,
-        signal,
+        signal: controller.signal,
       };
 
-      if (payload) options.body = parsePayload(payload);
+      if (body) {
+        options.body = parsePayload(body);
+      }
 
       const parsedUrl = this.baseUrl ? this.baseUrl + url : url;
       const response = await fetch(parsedUrl, options);
 
       if (!response.ok) {
-        return this.handleResponse({
+        return this.handleResponse<T>({
           status: 'fail',
           statusCode: response.status,
-          response: null,
         });
       }
 
@@ -92,15 +75,15 @@ export default class Fetch implements FetchInstance {
         response: data,
       });
     } catch (error) {
-      return this.handleRequestError(error);
+      return this.handleRequestError<T>(error);
     }
   }
 
-  handleResponse({
+  private handleResponse<T>({
     status,
     statusCode,
     response,
-  }: FetchResponse<object | null>) {
+  }: FetchResponse<T>) {
     return {
       status,
       statusCode,
@@ -108,54 +91,72 @@ export default class Fetch implements FetchInstance {
     };
   }
 
-  handleRequestError(error: any): FetchResponse<null> {
+  private handleRequestError<T>(error: any): FetchResponse<T> {
     return {
       status: 'fail',
       errorName: error.name,
       errorMsg: error,
-      response: null,
     };
   }
 
-  setBaseUrl(baseUrl: string): void {
+  setBaseUrl(baseUrl: string) {
     this.baseUrl = baseUrl;
   }
 
-  setHeaders(headers: FetchInstance['headers']): void {
+  setHeaders(headers: HttpHeadersMap) {
     this.headers = headers;
   }
 
-  setRequestTimeout() {
-    const controller = new AbortController();
-    setTimeout(() => {
-      controller.abort();
-    }, this.timeout);
-    return controller.signal;
+  cancelApi(cancelKey?: string) {
+    const cancelApi = this.fetchApis.find(api => api.cancelKey === cancelKey);
+    cancelApi?.abortController.abort();
   }
-
-  setTimeout(timeout: number): void {
-    this.timeout = timeout;
+  allCancelApi() {
+    this.fetchApis.forEach(api => api.abortController.abort());
   }
-
-  async get({ url, params, headers }: RequestOptions) {
+  async get<T>({ url, params, headers, cancelKey }: RequestOptions) {
     const parsedUrl = params ? parseUrlAndParam({ url, params }) : url;
-    return this.httpRequest({ method: 'GET', url: parsedUrl, headers });
+
+    return this.httpRequest<T>({
+      method: 'GET',
+      url: parsedUrl,
+      headers,
+      cancelKey,
+    });
   }
 
-  async post({ url, payload, headers }: RequestOptions) {
-    return this.httpRequest({ method: 'POST', url, payload, headers });
+  async post<T>({ url, body, headers, cancelKey }: RequestOptions) {
+    return this.httpRequest<T>({
+      method: 'POST',
+      url,
+      body,
+      headers,
+      cancelKey,
+    });
   }
 
-  async put({ url, payload, headers }: RequestOptions) {
-    return this.httpRequest({ method: 'PUT', url, payload, headers });
+  async put<T>({ url, body, headers, cancelKey }: RequestOptions) {
+    return this.httpRequest<T>({
+      method: 'PUT',
+      url,
+      body,
+      headers,
+      cancelKey,
+    });
   }
 
-  async patch({ url, payload, headers }: RequestOptions) {
-    return this.httpRequest({ method: 'PATCH', url, payload, headers });
+  async patch<T>({ url, body, headers, cancelKey }: RequestOptions) {
+    return this.httpRequest<T>({
+      method: 'PATCH',
+      url,
+      body,
+      headers,
+      cancelKey,
+    });
   }
 
-  async delete({ url, headers }: RequestOptions) {
-    return this.httpRequest({ method: 'DELETE', url, headers });
+  async delete<T>({ url, headers, cancelKey }: RequestOptions) {
+    return this.httpRequest<T>({ method: 'DELETE', url, headers, cancelKey });
   }
 }
 
@@ -165,7 +166,7 @@ function parseUrlAndParam({
 }: {
   url: string;
   params?: Record<string, any> | string;
-}): string {
+}) {
   if (!params) return url;
 
   if (params !== null && typeof params === 'object') {
@@ -178,7 +179,7 @@ function parseUrlAndParam({
   }
 }
 
-function parseObjectToQueryString(obj: Record<string, any>): string {
+function parseObjectToQueryString(obj: Record<string, any>) {
   const queryParams = [];
 
   for (const key in obj) {
@@ -193,11 +194,11 @@ function parseObjectToQueryString(obj: Record<string, any>): string {
   return queryParams.join('&');
 }
 
-function parseArrayToQueryString(arr: string[]): string {
+function parseArrayToQueryString(arr: string[]) {
   return arr.join('&');
 }
 
-function parsePayload(payload: object): FormData | string {
+function parsePayload(payload: BodyInit) {
   if (payload instanceof FormData) {
     return payload;
   } else {
